@@ -1,10 +1,13 @@
 import express from "express";
+import knex from "../database_client.js";
 
-// This router can be deleted once you add your own router
-const nestedRouter = express.Router();
+const futureMeals = express.Router();
 
-nestedRouter.get("/", (req, res) => {
-    res.json({ message: "Hello nested router" });
+futureMeals.get("/", async (req, res) => {
+    const result = await knex.raw("SELECT * FROM Meal WHERE `when` > NOW()");
+    const futureMeals = result[0];
+    res.send(futureMeals);
+    res.end();
 });
 
-export default nestedRouter;
+export default futureMeals;
