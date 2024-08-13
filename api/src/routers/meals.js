@@ -57,4 +57,19 @@ mealsRouter.put("/:id", async (req, res) => {
     }
 });
 
+// DELETE /api/meals/:id - Deletes the meal by id
+mealsRouter.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedRows = await knex("Meal").where({ ID: id }).del();
+        if (deletedRows > 0) {
+            res.json({ message: "Meal deleted successfully" });
+        } else {
+            res.status(404).json({ message: "Meal not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete meal" });
+    }
+});
+
 export default mealsRouter;
