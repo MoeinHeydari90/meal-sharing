@@ -24,4 +24,19 @@ mealsRouter.post("/", async (req, res) => {
     }
 });
 
+// GET /api/meals/:id - Returns the meal by id
+mealsRouter.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const meal = await knex.raw("SELECT * FROM Meal WHERE ID = ?", [id]);
+        if (meal.length > 0) {
+            res.json(meal);
+        } else {
+            res.status(404).json({ message: "Meal not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to retrieve meal" });
+    }
+});
+
 export default mealsRouter;
