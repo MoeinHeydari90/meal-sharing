@@ -39,4 +39,22 @@ mealsRouter.get("/:id", async (req, res) => {
     }
 });
 
+// PUT /api/meals/:id - Updates the meal by id
+mealsRouter.put("/:id", async (req, res) => {
+    const { id } = req.params;
+    const { name, description, price, created_date } = req.body;
+    try {
+        const updatedRows = await knex("Meal")
+            .where({ ID: id })
+            .update({ name, description, price, created_date });
+        if (updatedRows > 0) {
+            res.json({ message: "Meal updated successfully" });
+        } else {
+            res.status(404).json({ message: "Meal not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update meal" });
+    }
+});
+
 export default mealsRouter;
