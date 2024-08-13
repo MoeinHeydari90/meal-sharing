@@ -4,6 +4,7 @@ import cors from "cors"; // Imports the CORS middleware to enable Cross-Origin R
 import bodyParser from "body-parser"; // Imports the body-parser middleware to parse incoming request bodies
 import knex from "./database_client.js"; // Imports the configured knex instance for database queries
 import nestedRouter from "./routers/nested.js"; // Imports a nested router module
+import mealsRouter from "./routers/meals.js"; // Import the meals router
 
 const app = express(); // Creates an instance of an express application
 
@@ -15,6 +16,7 @@ const apiRouter = express.Router(); // Creates a new router instance for API rou
 
 // This nested router example can also be replaced with your own sub-router
 apiRouter.use("/nested", nestedRouter); // Mounts the nested router under the '/nested' path
+apiRouter.use("/meals", mealsRouter); // Mount meals router under /api/meals
 
 app.use("/api", apiRouter); // Mounts the API router under the '/api' path
 
