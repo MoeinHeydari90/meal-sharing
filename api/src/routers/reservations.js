@@ -8,7 +8,7 @@ const reservationsRouter = express.Router();
 // GET /api/reservations - Returns all reservations
 reservationsRouter.get("/", async (req, res) => {
     try {
-        const reservations = await knex.select("*").from("Reservation").orderBy("ID", "ASC");
+        const reservations = await knex.select("*").from("Reservation").orderBy("id", "ASC");
         res.json(reservations);
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve reservations" });
@@ -48,7 +48,7 @@ reservationsRouter.post("/", async (req, res) => {
 reservationsRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const reservation = await knex("Reservation").where({ ID: id }).first();
+        const reservation = await knex("Reservation").where({ id }).first();
         if (reservation) {
             res.json(reservation);
         } else {
@@ -71,16 +71,14 @@ reservationsRouter.put("/:id", async (req, res) => {
         contact_email,
     } = req.body;
     try {
-        const updatedRows = await knex("Reservation")
-            .where({ id })
-            .update({
-                number_of_guests,
-                meal_id,
-                created_date,
-                contact_phonenumber,
-                contact_name,
-                contact_email,
-            });
+        const updatedRows = await knex("Reservation").where({ id }).update({
+            number_of_guests,
+            meal_id,
+            created_date,
+            contact_phonenumber,
+            contact_name,
+            contact_email,
+        });
         if (updatedRows > 0) {
             res.json({ message: "Reservation updated successfully" });
         } else {
@@ -95,7 +93,7 @@ reservationsRouter.put("/:id", async (req, res) => {
 reservationsRouter.delete("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedRows = await knex("Reservation").where({ ID: id }).del();
+        const deletedRows = await knex("Reservation").where({ id }).del();
         if (deletedRows > 0) {
             res.json({ message: "Reservation deleted successfully" });
         } else {
