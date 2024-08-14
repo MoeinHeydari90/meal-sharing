@@ -43,4 +43,22 @@ reservationsRouter.get("/:id", async (req, res) => {
     }
 });
 
+// PUT /api/reservations/:id - Updates the reservation by id
+reservationsRouter.put("/:id", async (req, res) => {
+    const { id } = req.params;
+    const { guest_name, meal_id, reservation_date } = req.body;
+    try {
+        const updatedRows = await knex("Reservation")
+            .where({ ID: id })
+            .update({ guest_name, meal_id, reservation_date });
+        if (updatedRows > 0) {
+            res.json({ message: "Reservation updated successfully" });
+        } else {
+            res.status(404).json({ message: "Reservation not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update reservation" });
+    }
+});
+
 export default reservationsRouter;
