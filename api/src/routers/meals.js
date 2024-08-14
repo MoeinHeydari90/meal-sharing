@@ -15,12 +15,22 @@ mealsRouter.get("/", async (req, res) => {
 
 // POST /api/meals - Adds a new meal to the database
 mealsRouter.post("/", async (req, res) => {
-    const { name, description, price, created_date } = req.body;
+    const { id, title, description, location, when, max_reservations, price, created_date } =
+        req.body;
     try {
-        const [id] = await knex("Meal")
-            .insert({ name, description, price, created_date })
-            .returning("ID");
-        res.status(201).json({ message: "Meal added successfully", id });
+        const [newMealId] = await knex("Meal")
+            .insert({
+                id,
+                title,
+                description,
+                location,
+                when,
+                max_reservations,
+                price,
+                created_date,
+            })
+            .returning("id");
+        res.status(201).json({ message: "Meal added successfully", id: newMealId });
     } catch (error) {
         res.status(500).json({ error: "Failed to add meal" });
     }
