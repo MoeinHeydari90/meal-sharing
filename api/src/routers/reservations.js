@@ -28,4 +28,19 @@ reservationsRouter.post("/", async (req, res) => {
     }
 });
 
+// GET /api/reservations/:id - Returns a reservation by id
+reservationsRouter.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const reservation = await knex("Reservation").where({ ID: id }).first();
+        if (reservation) {
+            res.json(reservation);
+        } else {
+            res.status(404).json({ message: "Reservation not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to retrieve reservation" });
+    }
+});
+
 export default reservationsRouter;
