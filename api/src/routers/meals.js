@@ -17,8 +17,10 @@ mealsRouter.get("/", async (req, res) => {
 mealsRouter.post("/", async (req, res) => {
     const { name, description, price, created_date } = req.body;
     try {
-        await knex("Meal").insert({ name, description, price, created_date });
-        res.status(201).json({ message: "Meal added successfully" });
+        const [id] = await knex("Meal")
+            .insert({ name, description, price, created_date })
+            .returning("ID");
+        res.status(201).json({ message: "Meal added successfully", id });
     } catch (error) {
         res.status(500).json({ error: "Failed to add meal" });
     }
