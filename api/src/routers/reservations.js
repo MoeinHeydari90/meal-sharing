@@ -15,4 +15,17 @@ reservationsRouter.get("/", async (req, res) => {
     }
 });
 
+// POST /api/reservations - Adds a new reservation to the database
+reservationsRouter.post("/", async (req, res) => {
+    const { guest_name, meal_id, reservation_date } = req.body;
+    try {
+        const [id] = await knex("Reservation")
+            .insert({ guest_name, meal_id, reservation_date })
+            .returning("ID");
+        res.status(201).json({ message: "Reservation added successfully", id });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to add reservation" });
+    }
+});
+
 export default reservationsRouter;
