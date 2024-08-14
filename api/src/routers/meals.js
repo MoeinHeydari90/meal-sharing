@@ -30,8 +30,8 @@ mealsRouter.post("/", async (req, res) => {
 mealsRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const meal = await knex.raw("SELECT * FROM Meal WHERE ID = ?", [id]);
-        if (meal.length > 0) {
+        const meal = await knex("Meal").where({ ID: id }).first();
+        if (meal) {
             res.json(meal);
         } else {
             res.status(404).json({ message: "Meal not found" });
