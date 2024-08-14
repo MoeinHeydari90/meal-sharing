@@ -6,7 +6,7 @@ const mealsRouter = express.Router();
 // GET /api/meals - Returns all meals
 mealsRouter.get("/", async (req, res) => {
     try {
-        const meals = await knex.raw("SELECT * FROM Meal ORDER BY ID ASC");
+        const meals = await knex.select("*").from("Meal").orderBy("ID", "ASC");
         res.json(meals);
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve meals" });
