@@ -6,7 +6,7 @@ const mealsRouter = express.Router();
 // GET /api/meals - Returns all meals
 mealsRouter.get("/", async (req, res) => {
     try {
-        const meals = await knex.select("*").from("Meal").orderBy("ID", "ASC");
+        const meals = await knex.select("*").from("Meal").orderBy("id", "ASC");
         res.json(meals);
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve meals" });
@@ -40,7 +40,7 @@ mealsRouter.post("/", async (req, res) => {
 mealsRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const meal = await knex("Meal").where({ ID: id }).first();
+        const meal = await knex("Meal").where({ id }).first();
         if (meal) {
             res.json(meal);
         } else {
@@ -73,7 +73,7 @@ mealsRouter.put("/:id", async (req, res) => {
 mealsRouter.delete("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedRows = await knex("Meal").where({ ID: id }).del();
+        const deletedRows = await knex("Meal").where({ id }).del();
         if (deletedRows > 0) {
             res.json({ message: "Meal deleted successfully" });
         } else {
