@@ -61,4 +61,19 @@ reservationsRouter.put("/:id", async (req, res) => {
     }
 });
 
+// DELETE /api/reservations/:id - Deletes the reservation by id
+reservationsRouter.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedRows = await knex("Reservation").where({ ID: id }).del();
+        if (deletedRows > 0) {
+            res.json({ message: "Reservation deleted successfully" });
+        } else {
+            res.status(404).json({ message: "Reservation not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete reservation" });
+    }
+});
+
 export default reservationsRouter;
