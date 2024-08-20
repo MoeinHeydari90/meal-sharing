@@ -3,10 +3,23 @@ import knex from "../database_client.js"; // Import the configured knex instance
 
 const mealsRouter = express.Router();
 
-// GET /api/meals - Returns all meals
+// GET /api/meals - Returns all meals, with optional filtering
 mealsRouter.get("/", async (req, res) => {
     try {
-        const meals = await knex.select("*").from("Meal").orderBy("id", "ASC");
+        // Start building the query
+        let query = knex.select("*").from("Meal").orderBy("id", "ASC");
+
+        // Check if maxPrice query parameter is provided
+        const { maxPrice } = req.query;
+        if (maxPrice) {
+            // Add the filtering condition for maxPrice
+            query = query.where("price", "<=", parseFloat(maxPrice));
+        }
+
+        // Execute the query
+        const meals = await query;
+
+        // Respond with the filtered meals
         res.json(meals);
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve meals" });
