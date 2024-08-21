@@ -9,8 +9,8 @@ mealsRouter.get("/", async (req, res) => {
         // Start building the query
         let query = knex.select("*").from("Meal").orderBy("id", "ASC");
 
-        // Check if maxPrice query parameter is provided
-        const { maxPrice, availableReservations } = req.query;
+        // Extract query parameters
+        const { maxPrice, availableReservations, title } = req.query;
 
         if (maxPrice) {
             // Add the filtering condition for maxPrice
@@ -30,6 +30,11 @@ mealsRouter.get("/", async (req, res) => {
                         ? "Meal.max_reservations > COUNT(Reservation.id)"
                         : "Meal.max_reservations <= COUNT(Reservation.id)"
                 );
+        }
+
+        if (title) {
+            // Add filtering for title with partial match
+            query = query.where("title", "like", `%${title}%`);
         }
 
         // Execute the query
