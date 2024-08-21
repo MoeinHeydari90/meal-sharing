@@ -10,7 +10,7 @@ mealsRouter.get("/", async (req, res) => {
         let query = knex.select("*").from("Meal").orderBy("id", "ASC");
 
         // Extract query parameters
-        const { maxPrice, availableReservations, title, dateAfter, dateBefore } = req.query;
+        const { maxPrice, availableReservations, title, dateAfter, dateBefore, limit } = req.query;
 
         if (maxPrice) {
             // Add the filtering condition for maxPrice
@@ -45,6 +45,17 @@ mealsRouter.get("/", async (req, res) => {
         if (dateBefore) {
             // Add filtering for dates before the given date
             query = query.where("when", "<", dateBefore);
+        }
+
+        if (limit) {
+            const parsedLimit = parseInt(limit);
+            if (parsedLimit > 0) {
+                query = query.limit(parsedLimit);
+            } else {
+                return res.status(400).json({
+                    error: "Invalid value for 'limit', It must be a positive integer.",
+                });
+            }
         }
 
         // Execute the query
