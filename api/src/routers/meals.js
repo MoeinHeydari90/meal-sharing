@@ -10,10 +10,26 @@ mealsRouter.get("/", async (req, res) => {
         let query = knex.select("*").from("Meal").orderBy("id", "ASC");
 
         // Check if maxPrice query parameter is provided
-        const { maxPrice } = req.query;
+        const { maxPrice, availableReservations } = req.query;
+
         if (maxPrice) {
             // Add the filtering condition for maxPrice
             query = query.where("price", "<=", parseFloat(maxPrice));
+        }
+
+        if (availableReservations !== undefined) {
+            // Convert the availableReservations parameter to a boolean
+            const available = availableReservations === "true";
+
+            // Filter meals based on available spots
+            query = query
+                .leftJoin("Reservation", "Meal.id", "=", "Reservation.meal_id")
+                .groupBy("Meal.id")
+                .havingRaw(
+                    available
+                        ? "Meal.max_reservations > COUNT(Reservation.id)"
+                        : "Meal.max_reservations <= COUNT(Reservation.id)"
+                );
         }
 
         // Execute the query
