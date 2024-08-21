@@ -10,7 +10,7 @@ mealsRouter.get("/", async (req, res) => {
         let query = knex.select("*").from("Meal").orderBy("id", "ASC");
 
         // Extract query parameters
-        const { maxPrice, availableReservations, title } = req.query;
+        const { maxPrice, availableReservations, title, dateAfter } = req.query;
 
         if (maxPrice) {
             // Add the filtering condition for maxPrice
@@ -35,6 +35,11 @@ mealsRouter.get("/", async (req, res) => {
         if (title) {
             // Add filtering for title with partial match
             query = query.where("title", "like", `%${title}%`);
+        }
+
+        if (dateAfter) {
+            // Add filtering for dates after the given date
+            query = query.where("when", ">", dateAfter);
         }
 
         // Execute the query
