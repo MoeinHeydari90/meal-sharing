@@ -10,7 +10,16 @@ mealsRouter.get("/", async (req, res) => {
         let query = knex.select("*").from("Meal").orderBy("id", "ASC");
 
         // Extract query parameters
-        const { maxPrice, availableReservations, title, dateAfter, dateBefore, limit } = req.query;
+        const {
+            maxPrice,
+            availableReservations,
+            title,
+            dateAfter,
+            dateBefore,
+            limit,
+            sortKey,
+            sortDir,
+        } = req.query;
 
         if (maxPrice) {
             // Add the filtering condition for maxPrice
@@ -54,6 +63,25 @@ mealsRouter.get("/", async (req, res) => {
             } else {
                 return res.status(400).json({
                     error: "Invalid value for 'limit', It must be a positive integer.",
+                });
+            }
+        }
+
+        if (sortKey || sortDir) {
+            if (sortDir && !sortKey) {
+                return res.status(400).json({
+                    error: "sortDir must come with a sortKey.",
+                });
+            }
+            const validSortKeys = ["when", "max_reservations", "price"];
+            const validSortDirs = ["ASC", "DESC"];
+
+            const FormattedSortDir = sortDir ? sortDir.toUpperCase() : "ASC";
+            if (validSortKeys.includes(sortKey) && validSortDirs.includes(FormattedSortDir)) {
+                query = query.orderBy(sortKey, FormattedSortDir);
+            } else {
+                return res.status(400).json({
+                    error: "Invalid value for sortKey or sortDir.",
                 });
             }
         }
