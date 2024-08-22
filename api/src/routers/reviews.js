@@ -97,4 +97,19 @@ reviewsRouter.put("/:id", async (req, res) => {
     }
 });
 
+// Deletes the review by id
+reviewsRouter.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedRows = await knex("Review").where({ id }).del();
+        if (deletedRows > 0) {
+            res.json({ message: "Review deleted successfully" });
+        } else {
+            res.status(404).json({ message: "Review not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to delete review" });
+    }
+});
+
 export default reviewsRouter;
