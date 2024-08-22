@@ -58,4 +58,43 @@ reviewsRouter.post("/", async (req, res) => {
     }
 });
 
+// Returns a review by id
+reviewsRouter.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const review = await knex("Review").where({ id }).first();
+        if (review) {
+            res.json(review);
+        } else {
+            res.status(404).json({ message: "Review not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to retrieve review" });
+    }
+});
+
+// Updates the review by id
+reviewsRouter.put("/:id", async (req, res) => {
+    const { id } = req.params;
+    const { title, description, stars, created_date } = req.body;
+
+    // Validate the stars rating to ensure it is between 1 and 5
+    if (stars < 1 || stars > 5) {
+        return res.status(400).json({ error: "Stars rating must be between 1 and 5" });
+    }
+
+    try {
+        const updatedRows = await knex("Review")
+            .where({ id })
+            .update({ title, description, stars, created_date });
+        if (updatedRows > 0) {
+            res.json({ message: "Review updated successfully" });
+        } else {
+            res.status(404).json({ message: "Review not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update review" });
+    }
+});
+
 export default reviewsRouter;
