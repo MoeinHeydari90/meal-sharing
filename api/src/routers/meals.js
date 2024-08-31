@@ -3,10 +3,93 @@ import knex from "../database_client.js"; // Import the configured knex instance
 
 const mealsRouter = express.Router();
 
-// GET /api/meals - Returns all meals
+// GET /api/meals - Returns all meals, with optional filtering
 mealsRouter.get("/", async (req, res) => {
     try {
-        const meals = await knex.select("*").from("Meal").orderBy("id", "ASC");
+        // Start building the query
+        let query = knex.select("*").from("Meal").orderBy("id", "ASC");
+
+        // Extract query parameters
+        const {
+            maxPrice,
+            availableReservations,
+            title,
+            dateAfter,
+            dateBefore,
+            limit,
+            sortKey,
+            sortDir,
+        } = req.query;
+
+        if (maxPrice) {
+            // Add the filtering condition for maxPrice
+            query = query.where("price", "<=", parseFloat(maxPrice));
+        }
+
+        if (availableReservations !== undefined) {
+            // Convert the availableReservations parameter to a boolean
+            const available = availableReservations === "true";
+
+            // Filter meals based on available spots
+            query = query
+                .leftJoin("Reservation", "Meal.id", "=", "Reservation.meal_id")
+                .groupBy("Meal.id")
+                .havingRaw(
+                    available
+                        ? "Meal.max_reservations > COUNT(Reservation.id)"
+                        : "Meal.max_reservations <= COUNT(Reservation.id)"
+                );
+        }
+
+        if (title) {
+            // Add filtering for title with partial match
+            query = query.where("title", "like", `%${title}%`);
+        }
+
+        if (dateAfter) {
+            // Add filtering for dates after the given date
+            query = query.where("when", ">", dateAfter);
+        }
+
+        if (dateBefore) {
+            // Add filtering for dates before the given date
+            query = query.where("when", "<", dateBefore);
+        }
+
+        if (limit) {
+            const parsedLimit = parseInt(limit);
+            if (parsedLimit > 0) {
+                query = query.limit(parsedLimit);
+            } else {
+                return res.status(400).json({
+                    error: "Invalid value for 'limit', It must be a positive integer.",
+                });
+            }
+        }
+
+        if (sortKey || sortDir) {
+            if (sortDir && !sortKey) {
+                return res.status(400).json({
+                    error: "sortDir must come with a sortKey.",
+                });
+            }
+            const validSortKeys = ["when", "max_reservations", "price"];
+            const validSortDirs = ["ASC", "DESC"];
+
+            const FormattedSortDir = sortDir ? sortDir.toUpperCase() : "ASC";
+            if (validSortKeys.includes(sortKey) && validSortDirs.includes(FormattedSortDir)) {
+                query = query.orderBy(sortKey, FormattedSortDir);
+            } else {
+                return res.status(400).json({
+                    error: "Invalid value for sortKey or sortDir.",
+                });
+            }
+        }
+
+        // Execute the query
+        const meals = await query;
+
+        // Respond with the filtered meals
         res.json(meals);
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve meals" });

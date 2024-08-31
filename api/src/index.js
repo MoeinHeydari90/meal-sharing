@@ -6,6 +6,7 @@ import knex from "./database_client.js"; // Imports the configured knex instance
 import nestedRouter from "./routers/nested.js"; // Imports a nested router module
 import mealsRouter from "./routers/meals.js"; // Import the meals router
 import reservationsRouter from "./routers/reservations.js"; // Import the reservations router
+import reviewsRouter from "./routers/reviews.js"; // Import the reviews router
 
 const app = express(); // Creates an instance of an express application
 
@@ -17,8 +18,9 @@ const apiRouter = express.Router(); // Creates a new router instance for API rou
 
 // This nested router example can also be replaced with your own sub-router
 apiRouter.use("/nested", nestedRouter); // Mounts the nested router under the '/nested' path
-apiRouter.use("/meals", mealsRouter); // Mount meals router under /api/meals
-apiRouter.use("/reservations", reservationsRouter); // Mount reservations router under /api/reservations
+apiRouter.use("/meals", mealsRouter); // Mount the meals router under '/api/meals' path
+apiRouter.use("/reservations", reservationsRouter); // Mount the reservations router under '/api/reservations' path
+apiRouter.use("/reviews", reviewsRouter); // Mount the reviews router under the '/api/reviews' path
 
 app.use("/api", apiRouter); // Mounts the API router under the '/api' path
 
