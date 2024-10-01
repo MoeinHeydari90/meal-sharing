@@ -18,10 +18,9 @@ reservationsRouter.get("/", async (req, res) => {
 // POST /api/reservations - Adds a new reservation to the database
 reservationsRouter.post("/", async (req, res) => {
     const {
-        id,
-        number_of_guests,
-        meal_id,
-        created_date,
+        number_of_guests, // Expect this from the request
+        meal_id, // Expect this from the request
+        created_date, // Expect this from the request
         contact_phonenumber,
         contact_name,
         contact_email,
@@ -29,7 +28,6 @@ reservationsRouter.post("/", async (req, res) => {
     try {
         const [newReservationId] = await knex("Reservation")
             .insert({
-                id,
                 number_of_guests,
                 meal_id,
                 created_date,

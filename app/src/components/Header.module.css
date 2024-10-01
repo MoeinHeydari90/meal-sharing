@@ -1,0 +1,29 @@
+/* src/components/Header.module.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333; /* Dark background */
+    color: #fff; /* White text */
+}
+
+.logo {
+    font-size: 1.5em; /* Logo size */
+    font-weight: bold;
+}
+
+.navList {
+    list-style: none; /* Remove bullet points */
+    display: flex; /* Horizontal layout */
+}
+
+.navList li {
+    margin: 0 15px; /* Space between menu items */
+    cursor: pointer; /* Pointer on hover */
+    transition: color 0.3s; /* Transition effect */
+}
+
+.navList li:hover {
+    color: #f0a500; /* Highlight color on hover */
+}

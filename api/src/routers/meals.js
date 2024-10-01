@@ -119,12 +119,22 @@ mealsRouter.post("/", async (req, res) => {
     }
 });
 
-// GET /api/meals/:id - Returns the meal by id
+// GET /api/meals/:id - Returns the meal by id with current reservation count
 mealsRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const meal = await knex("Meal").where({ id }).first();
+        // Fetch the meal details along with the count of current reservations
+        const meal = await knex("Meal")
+            .leftJoin("Reservation", "Meal.id", "Reservation.meal_id")
+            .select("Meal.*")
+            .count("Reservation.id as current_reservations") // Count the current reservations
+            .where("Meal.id", id)
+            .groupBy("Meal.id") // Group by meal ID to avoid duplicates
+            .first(); // Get the first result
+
         if (meal) {
+            // Calculate available reservations
+            meal.available_reservations = meal.max_reservations - meal.current_reservations;
             res.json(meal);
         } else {
             res.status(404).json({ message: "Meal not found" });

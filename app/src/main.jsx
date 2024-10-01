@@ -1,24 +1,23 @@
+// src/main.jsx
 import React from "react";
-import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./components/HomePage/HomePage.jsx";
-import TestPage from "./components/TestPage/TestPage.jsx";
-import "./main.css";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import HomePage from "./components/HomePage/HomePage"; // Import HomePage
+import MealsPage from "./MealsPage"; // Import MealsPage
+import MealDetailPage from "./MealDetailPage"; // Import MealDetailPage
+import Header from "./components/Header"; // Import Header
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  // This route can be removed and replaced with your own page
-  {
-    path: "/nested",
-    element: <TestPage />,
-  },
-]);
+const App = () => {
+    return (
+        <Router>
+            <Header /> {/* Include the Header */}
+            <Switch>
+                <Route path="/" exact component={HomePage} />
+                <Route path="/meals" component={MealsPage} />
+                <Route path="/meals/:id" component={MealDetailPage} />
+            </Switch>
+        </Router>
+    );
+};
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-);
+ReactDOM.render(<App />, document.getElementById("root")); // Ensure you have a root element in your HTML
