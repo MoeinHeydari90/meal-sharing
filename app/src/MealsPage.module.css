@@ -2,6 +2,7 @@
 
 .mealsPage {
     padding: 20px; /* Add padding for the page */
+    padding-top: 100px;
 }
 
 .mealsGrid {

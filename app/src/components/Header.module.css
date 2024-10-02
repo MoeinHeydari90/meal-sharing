@@ -4,13 +4,22 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: #333; /* Dark background */
+    background-color: rgba(19, 19, 19, 0.4);
     color: #fff; /* White text */
+    position: absolute;
+    z-index: 10;
+    width: 100%;
 }
 
-.logo {
-    font-size: 1.5em; /* Logo size */
-    font-weight: bold;
+.logoContainer {
+    display: flex;
+    align-items: center; /* Center the logo vertically */
+}
+
+.logoImage {
+    height: 50px; /* Set a height for the logo */
+    width: auto; /* Maintain aspect ratio */
+    filter: invert(1);
 }
 
 .navList {
@@ -26,4 +35,35 @@
 
 .navList li:hover {
     color: #f0a500; /* Highlight color on hover */
+}
+
+/* Active nav item style */
+.activeNavItem {
+    color: #f0a500; /* Change color for active item */
+    font-weight: bold; /* Bold text for active item */
+}
+
+/* Styles for the search form */
+.searchForm {
+    display: flex; /* Flex layout */
+}
+
+.searchInput {
+    padding: 8px; /* Input padding */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    margin-right: 5px; /* Space between input and button */
+}
+
+.searchButton {
+    padding: 8px 12px; /* Button padding */
+    background-color: #edb742; /* Button color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.searchButton:hover {
+    background-color: #f0a500; /* Darker shade on hover */
 }

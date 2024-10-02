@@ -1,4 +1,4 @@
-// src/MealsList.jsx
+// src/components/MealsList.jsx
 "use client"; // Mark as a client component
 
 import React, { useState, useEffect } from "react";
@@ -6,14 +6,14 @@ import Meal from "./Meal"; // Import the Meal component
 import Link from "next/link"; // Import Link for navigation
 import styles from "./MealsList.module.css"; // Optional: Create a CSS module for styling
 
-const MealsList = () => {
+const MealsList = ({ searchTerm }) => {
     const [meals, setMeals] = useState([]);
 
     // Fetch meals from API when the component mounts
     useEffect(() => {
         const fetchMeals = async () => {
             try {
-                const response = await fetch("http://localhost:3001/api/meals"); // Adjust this if necessary
+                const response = await fetch(`http://localhost:3001/api/meals?title=${searchTerm}`); // Adjust this if necessary
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`); // Handle HTTP errors
                 }
@@ -25,7 +25,7 @@ const MealsList = () => {
         };
 
         fetchMeals();
-    }, []);
+    }, [searchTerm]); // Fetch meals whenever the searchTerm changes
 
     return (
         <div className={styles.mealsGrid}>

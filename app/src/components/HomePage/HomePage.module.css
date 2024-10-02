@@ -3,11 +3,14 @@
 .container {
     position: relative; /* Keep this for video positioning */
     text-align: center; /* Center the text */
+    overflow: hidden; /* Prevent any overflow */
+    background-color: #333;
 }
 
 .videoContainer {
     position: relative; /* To position the overlay text */
     overflow: hidden; /* Hide any overflowing content */
+    margin-bottom: 0; /* Remove bottom margin to avoid gap */
 }
 
 .video {
@@ -18,20 +21,20 @@
 .overlayText {
     position: absolute; /* Overlay text on top of the video */
     top: 20%; /* Adjust as needed */
-    left: 40%;
-    transform: translate(-50%, -50%);
+    left: 25%;
+
     color: white; /* Ensure text is readable */
     font-size: 4rem; /* Adjust font size */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Optional: add shadow for better readability */
 }
 
 .subtitle {
-    margin-top: 20px; /* Add spacing from the video */
+    margin-top: 400px; /* Add spacing from the video */
     font-size: 2rem; /* Adjust font size */
 }
 
 .text {
     margin-top: 10px; /* Add spacing from the subtitle */
     font-size: 1.2rem; /* Adjust font size */
-    color: #333; /* Color for the text */
+    color: #ffffff; /* Color for the text */
 }
