@@ -7,7 +7,7 @@ const mealsRouter = express.Router();
 mealsRouter.get("/", async (req, res) => {
     try {
         // Start building the query
-        let query = knex.select("*").from("Meal").orderBy("id", "ASC");
+        let query = knex.select("*").from("Meal");
 
         // Extract query parameters
         const {
@@ -22,15 +22,11 @@ mealsRouter.get("/", async (req, res) => {
         } = req.query;
 
         if (maxPrice) {
-            // Add the filtering condition for maxPrice
             query = query.where("price", "<=", parseFloat(maxPrice));
         }
 
         if (availableReservations !== undefined) {
-            // Convert the availableReservations parameter to a boolean
             const available = availableReservations === "true";
-
-            // Filter meals based on available spots
             query = query
                 .leftJoin("Reservation", "Meal.id", "=", "Reservation.meal_id")
                 .groupBy("Meal.id")
@@ -42,17 +38,14 @@ mealsRouter.get("/", async (req, res) => {
         }
 
         if (title) {
-            // Add filtering for title with partial match
             query = query.where("title", "like", `%${title}%`);
         }
 
         if (dateAfter) {
-            // Add filtering for dates after the given date
             query = query.where("when", ">", dateAfter);
         }
 
         if (dateBefore) {
-            // Add filtering for dates before the given date
             query = query.where("when", "<", dateBefore);
         }
 
@@ -67,21 +60,20 @@ mealsRouter.get("/", async (req, res) => {
             }
         }
 
-        if (sortKey || sortDir) {
-            if (sortDir && !sortKey) {
-                return res.status(400).json({
-                    error: "sortDir must come with a sortKey.",
-                });
-            }
+        // Sorting logic
+        if (sortKey) {
             const validSortKeys = ["when", "max_reservations", "price"];
             const validSortDirs = ["ASC", "DESC"];
+            const FormattedSortDir =
+                sortDir && validSortDirs.includes(sortDir.toUpperCase())
+                    ? sortDir.toUpperCase()
+                    : "ASC";
 
-            const FormattedSortDir = sortDir ? sortDir.toUpperCase() : "ASC";
-            if (validSortKeys.includes(sortKey) && validSortDirs.includes(FormattedSortDir)) {
+            if (validSortKeys.includes(sortKey)) {
                 query = query.orderBy(sortKey, FormattedSortDir);
             } else {
                 return res.status(400).json({
-                    error: "Invalid value for sortKey or sortDir.",
+                    error: "Invalid value for sortKey.",
                 });
             }
         }
