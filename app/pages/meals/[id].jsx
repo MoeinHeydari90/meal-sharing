@@ -1,6 +1,5 @@
-// pages/meals/[id].jsx
 import React from "react";
-import MealDetailPage from "../../src/MealDetailPage"; // Adjusted import path
+import MealDetailPage from "../../src/components/MealDetailPage/MealDetailPage";
 
 const MealDetail = () => {
     return <MealDetailPage />;

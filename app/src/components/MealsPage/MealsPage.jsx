@@ -1,5 +1,6 @@
+// src/MealsPage.jsx
 import React, { useState } from "react";
-import MealsList from "./components/MealsList"; // Import the MealsList component
+import MealsList from "../MealsList"; // Import the MealsList component
 import styles from "./MealsPage.module.css"; // Optional: Create a CSS module for styling
 import { useRouter } from "next/router"; // Import useRouter
 
@@ -9,7 +10,7 @@ const MealsPage = () => {
 
     const [sortKey, setSortKey] = useState("when"); // Default sort key
     const [sortDir, setSortDir] = useState("ASC"); // Default sort direction
-    const [meals, setMeals] = useState([]); // State to store meals
+    const [searchTerm, setSearchTerm] = useState(title || ""); // State for search term
 
     const handleSortKeyChange = (e) => {
         setSortKey(e.target.value);
@@ -19,9 +20,14 @@ const MealsPage = () => {
         setSortDir(e.target.value);
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+        router.push(`/meals?title=${searchTerm}`); // Redirect to meals page with search query
+    };
+
     return (
         <div className={styles.mealsPage}>
-            <div className={styles.sortControls}>
+            <div className={styles.controls}>
                 <div>
                     <label htmlFor="sortKey">Sort By:</label>
                     <select id="sortKey" value={sortKey} onChange={handleSortKeyChange}>
@@ -37,13 +43,17 @@ const MealsPage = () => {
                         <option value="DESC">Descending</option>
                     </select>
                 </div>
+                <form onSubmit={handleSearch} className={styles.searchForm}>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search meals..."
+                        className={styles.searchInput}
+                    />
+                </form>
             </div>
-            <MealsList
-                searchTerm={title || ""}
-                sortKey={sortKey}
-                sortDir={sortDir}
-                setMeals={setMeals} // Pass the setter function
-            />
+            <MealsList searchTerm={searchTerm} sortKey={sortKey} sortDir={sortDir} />
         </div>
     );
 };

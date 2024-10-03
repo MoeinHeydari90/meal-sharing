@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./MealDetailPage.module.css"; // Import CSS module
+import Button from "../Button"; // Import the Button component
 
 const MealDetailPage = () => {
     const router = useRouter();
@@ -129,9 +130,10 @@ const MealDetailPage = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <button type="submit" className={styles.button}>
+                        {/* Replace with Button component */}
+                        <Button type="submit" className={styles.button}>
                             Book Seat
-                        </button>
+                        </Button>
                     </form>
                 )}
 
@@ -159,9 +161,10 @@ const MealDetailPage = () => {
                         <option value="4">4 Stars</option>
                         <option value="5">5 Stars</option>
                     </select>
-                    <button type="submit" className={styles.button}>
+                    {/* Replace with Button component */}
+                    <Button type="submit" className={styles.button}>
                         Submit Review
-                    </button>
+                    </Button>
                 </form>
                 {message && <p>{message}</p>}
             </div>

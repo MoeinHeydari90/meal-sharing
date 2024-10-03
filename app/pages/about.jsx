@@ -1,7 +1,5 @@
-// pages/about.jsx
 import React from "react";
-import AboutPage from "../src/AboutPage"; // Adjusted import path
-
+import AboutPage from "../src/components/AboutPage/AboutPage";
 const AboutPageComponent = () => {
     return <AboutPage />;
 };

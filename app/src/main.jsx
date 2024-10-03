@@ -1,10 +1,11 @@
-// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import HomePage from "./components/HomePage/HomePage"; // Import HomePage
-import MealsPage from "./MealsPage"; // Import MealsPage
-import MealDetailPage from "./MealDetailPage"; // Import MealDetailPage
+import HomePage from "./components/HomePage/HomePage";
+import MealsPage from "./components/MealsPage/MealsPage";
+import MealDetailPage from "./components/MealDetailPage/MealDetailPage";
+import AboutPage from "./components/AboutPage/AboutPage";
+import JoinUsPage from "./components/JoinUsPage/JoinUsPage";
 
 const App = () => {
     return (
@@ -14,9 +15,10 @@ const App = () => {
                 <Route path="/meals" component={MealsPage} />
                 <Route path="/meals/:id" component={MealDetailPage} />
                 <Route path="/about" component={AboutPage} />
+                <Route path="/join-us" component={JoinUsPage} />
             </Switch>
         </Router>
     );
 };
 
-ReactDOM.render(<App />, document.getElementById("root")); // Ensure you have a root element in your HTML
+ReactDOM.render(<App />, document.getElementById("root"));

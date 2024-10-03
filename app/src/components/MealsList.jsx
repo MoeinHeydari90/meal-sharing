@@ -1,7 +1,7 @@
 "use client"; // Mark as a client component
 
 import React, { useState, useEffect } from "react";
-import Meal from "./Meal"; // Import the Meal component
+import Meal from "../components/Meal"; // Import the Meal component
 import Link from "next/link"; // Import Link for navigation
 import styles from "./MealsList.module.css"; // Optional: Create a CSS module for styling
 

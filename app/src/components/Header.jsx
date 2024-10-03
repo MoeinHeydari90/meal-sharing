@@ -1,18 +1,11 @@
 // src/components/Header.jsx
-import React, { useState } from "react"; // Import useState
+import React from "react"; // Import React
 import styles from "./Header.module.css"; // Import CSS styles
 import Link from "next/link"; // Import Link for navigation
 import { useRouter } from "next/router"; // Import useRouter for navigation
 
 const Header = () => {
-    const [searchTerm, setSearchTerm] = useState(""); // State for the search input
     const router = useRouter(); // Initialize router
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        // Redirect to the meals page with the search query
-        router.push(`/meals?title=${searchTerm}`);
-    };
 
     return (
         <header className={styles.header}>
@@ -49,18 +42,6 @@ const Header = () => {
                     </li>
                 </ul>
             </nav>
-            <form onSubmit={handleSearch} className={styles.searchForm}>
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search meals..."
-                    className={styles.searchInput}
-                />
-                <button type="submit" className={styles.searchButton}>
-                    Search
-                </button>
-            </form>
         </header>
     );
 };
