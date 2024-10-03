@@ -1,4 +1,3 @@
-// src/MealsPage.jsx
 import React, { useState } from "react";
 import MealsList from "./components/MealsList"; // Import the MealsList component
 import styles from "./MealsPage.module.css"; // Optional: Create a CSS module for styling
@@ -10,6 +9,7 @@ const MealsPage = () => {
 
     const [sortKey, setSortKey] = useState("when"); // Default sort key
     const [sortDir, setSortDir] = useState("ASC"); // Default sort direction
+    const [meals, setMeals] = useState([]); // State to store meals
 
     const handleSortKeyChange = (e) => {
         setSortKey(e.target.value);
@@ -22,20 +22,28 @@ const MealsPage = () => {
     return (
         <div className={styles.mealsPage}>
             <div className={styles.sortControls}>
-                <label htmlFor="sortKey">Sort By:</label>
-                <select id="sortKey" value={sortKey} onChange={handleSortKeyChange}>
-                    <option value="when">Date</option>
-                    <option value="max_reservations">Max Reservations</option>
-                    <option value="price">Price</option>
-                </select>
-                <label htmlFor="sortDir">Order:</label>
-                <select id="sortDir" value={sortDir} onChange={handleSortDirChange}>
-                    <option value="ASC">Ascending</option>
-                    <option value="DESC">Descending</option>
-                </select>
+                <div>
+                    <label htmlFor="sortKey">Sort By:</label>
+                    <select id="sortKey" value={sortKey} onChange={handleSortKeyChange}>
+                        <option value="when">Date</option>
+                        <option value="max_reservations">Max Reservations</option>
+                        <option value="price">Price</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="sortDir">Order:</label>
+                    <select id="sortDir" value={sortDir} onChange={handleSortDirChange}>
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC">Descending</option>
+                    </select>
+                </div>
             </div>
-            <MealsList searchTerm={title || ""} sortKey={sortKey} sortDir={sortDir} />{" "}
-            {/* Use the MealsList component here */}
+            <MealsList
+                searchTerm={title || ""}
+                sortKey={sortKey}
+                sortDir={sortDir}
+                setMeals={setMeals} // Pass the setter function
+            />
         </div>
     );
 };

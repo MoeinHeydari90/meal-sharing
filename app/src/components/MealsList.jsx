@@ -5,8 +5,8 @@ import Meal from "./Meal"; // Import the Meal component
 import Link from "next/link"; // Import Link for navigation
 import styles from "./MealsList.module.css"; // Optional: Create a CSS module for styling
 
-const MealsList = ({ searchTerm, sortKey, sortDir }) => {
-    const [meals, setMeals] = useState([]);
+const MealsList = ({ searchTerm, sortKey, sortDir, setMeals }) => {
+    const [meals, setLocalMeals] = useState([]);
 
     // Fetch meals from API when the component mounts or when searchTerm, sortKey or sortDir changes
     useEffect(() => {
@@ -21,8 +21,9 @@ const MealsList = ({ searchTerm, sortKey, sortDir }) => {
                     throw new Error(`HTTP error! status: ${response.status}`); // Handle HTTP errors
                 }
                 const data = await response.json();
-                console.log("Fetched meals data:", data); // Log the fetched data
-                setMeals(data); // Set the meals state with fetched data
+
+                setLocalMeals(data); // Set the local meals state with fetched data
+                setMeals(data); // Update the meals state in the parent component
             } catch (error) {
                 console.error("Error fetching meals:", error);
                 console.log(
