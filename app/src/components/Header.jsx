@@ -1,11 +1,18 @@
 // src/components/Header.jsx
-import React from "react"; // Import React
+import React, { useState } from "react"; // Import useState
 import styles from "./Header.module.css"; // Import CSS styles
 import Link from "next/link"; // Import Link for navigation
 import { useRouter } from "next/router"; // Import useRouter for navigation
 
 const Header = () => {
     const router = useRouter(); // Initialize router
+
+    // State to manage the current flag
+    const [isEnglish, setIsEnglish] = useState(true); // Default to English
+
+    const toggleLanguage = () => {
+        setIsEnglish(!isEnglish); // Toggle the language state
+    };
 
     return (
         <header className={styles.header}>
@@ -39,6 +46,20 @@ const Header = () => {
                         >
                             Join us
                         </Link>
+                    </li>
+                    <li>
+                        {" "}
+                        <div className={styles.languageSwitcher} onClick={toggleLanguage}>
+                            <img
+                                src={
+                                    isEnglish
+                                        ? "https://vectorflags.s3.amazonaws.com/flags/uk-button-01.png"
+                                        : "https://vectorflags.s3-us-west-2.amazonaws.com/flags/dk-button-01.png"
+                                }
+                                alt={isEnglish ? "English Flag" : "Danish Flag"}
+                                className={styles.flagImage}
+                            />
+                        </div>
                     </li>
                 </ul>
             </nav>

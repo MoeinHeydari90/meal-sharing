@@ -119,7 +119,6 @@ mealsRouter.get("/:id", async (req, res) => {
         const meal = await knex("Meal")
             .leftJoin("Reservation", "Meal.id", "Reservation.meal_id")
             .select("Meal.*")
-            .count("Reservation.id as current_reservations") // Count the current reservations
             .where("Meal.id", id)
             .groupBy("Meal.id") // Group by meal ID to avoid duplicates
             .first(); // Get the first result

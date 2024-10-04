@@ -1,7 +1,10 @@
+// src/components/Meal.jsx
 import React from "react";
 import styles from "./Meal.module.css"; // Ensure correct import
 
 const Meal = ({ meal }) => {
+    const availableSpots = meal.max_reservations - meal.current_reservations; // Calculate available spots
+
     return (
         <div className={styles.mealCard}>
             {/* Display the image */}
@@ -18,6 +21,11 @@ const Meal = ({ meal }) => {
             </p>
             <p className={styles.mealPrice}>
                 <strong>Price:</strong> ${parseFloat(meal.price).toFixed(2)}
+            </p>
+            {/* Show available spots */}
+            <p className={styles.availableSpots}>
+                <strong>Available Spots:</strong>{" "}
+                {availableSpots > 0 ? availableSpots : "Fully Booked"}
             </p>
         </div>
     );

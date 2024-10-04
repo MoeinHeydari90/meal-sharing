@@ -9,9 +9,9 @@
 }
 
 .primary {
-    background-color: #009b77; /* Primary button color */
+    background-color: #00c194; /* Primary button color */
     color: #333;
-    border: 2px solid #009b77;
+    border: 2px solid #00c194;
     letter-spacing: 1px;
     margin: 10px;
 }
@@ -31,7 +31,7 @@
 }
 
 .secondary:hover {
-    background-color: #009b77; /* Darker shade on hover */
+    background-color: #00c194; /* Darker shade on hover */
     color: #fff;
-    border: 2px solid #009b77;
+    border: 2px solid #00c194;
 }

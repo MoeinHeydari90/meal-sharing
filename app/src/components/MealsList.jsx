@@ -1,20 +1,18 @@
 "use client"; // Mark as a client component
 
 import React, { useState, useEffect } from "react";
-import Meal from "../components/Meal"; // Import the Meal component
+import Meal from "./Meal"; // Import the Meal component
 import Link from "next/link"; // Import Link for navigation
 import styles from "./MealsList.module.css"; // Optional: Create a CSS module for styling
 
-const MealsList = ({ searchTerm, sortKey, sortDir, setMeals }) => {
-    const [meals, setLocalMeals] = useState([]);
+const MealsList = ({ searchTerm, sortKey, sortDir }) => {
+    const [meals, setMeals] = useState([]);
 
     // Fetch meals from API when the component mounts or when searchTerm, sortKey or sortDir changes
     useEffect(() => {
-        console.log("MealsList component rendered with props:", { searchTerm, sortKey, sortDir });
-
         const fetchMeals = async () => {
             const apiUrl = `http://localhost:3001/api/meals?title=${searchTerm}&sortKey=${sortKey}&sortDir=${sortDir}`;
-            console.log(`Fetching meals from URL: ${apiUrl}`);
+
             try {
                 const response = await fetch(apiUrl);
                 if (!response.ok) {
@@ -22,13 +20,9 @@ const MealsList = ({ searchTerm, sortKey, sortDir, setMeals }) => {
                 }
                 const data = await response.json();
 
-                setLocalMeals(data); // Set the local meals state with fetched data
-                setMeals(data); // Update the meals state in the parent component
+                setMeals(data); // Set the meals state with fetched data
             } catch (error) {
                 console.error("Error fetching meals:", error);
-                console.log(
-                    `Search Term: ${searchTerm}, Sort Key: ${sortKey}, Sort Direction: ${sortDir}`
-                );
             }
         };
 

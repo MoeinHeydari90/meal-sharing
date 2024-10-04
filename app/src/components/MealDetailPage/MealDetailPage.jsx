@@ -1,7 +1,9 @@
+// src/components/MealDetailPage/MealDetailPage.jsx
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./MealDetailPage.module.css"; // Import CSS module
 import Button from "../Button"; // Import the Button component
+import StarRating from "../StarRating"; // Import StarRating component
 
 const MealDetailPage = () => {
     const router = useRouter();
@@ -14,10 +16,11 @@ const MealDetailPage = () => {
     const [reviewDescription, setReviewDescription] = useState("");
     const [stars, setStars] = useState(1); // Default to 1 star
     const [message, setMessage] = useState("");
+    const [reviews, setReviews] = useState([]); // State to store reviews
 
     useEffect(() => {
-        if (id) {
-            const fetchMeal = async () => {
+        const fetchMeal = async () => {
+            if (id) {
                 try {
                     const response = await fetch(`http://localhost:3001/api/meals/${id}`);
                     if (!response.ok) {
@@ -28,11 +31,38 @@ const MealDetailPage = () => {
                 } catch (error) {
                     console.error("Error fetching meal:", error);
                 }
-            };
+            }
+        };
 
-            fetchMeal();
-        }
+        const fetchReviews = async () => {
+            if (id) {
+                try {
+                    const response = await fetch(
+                        `http://localhost:3001/api/reviews/meals/${id}/reviews`
+                    );
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    setReviews(data);
+                } catch (error) {
+                    console.error("Error fetching reviews:", error);
+                }
+            }
+        };
+
+        fetchMeal();
+        fetchReviews();
     }, [id]);
+
+    // Function to format a date string into the 'dd/mm/yy' format
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = String(date.getFullYear()).slice(-2);
+        return `${day}/${month}/${year}`;
+    };
 
     const handleReservation = async (e) => {
         e.preventDefault();
@@ -85,6 +115,13 @@ const MealDetailPage = () => {
                 setReviewTitle("");
                 setReviewDescription("");
                 setStars(1); // Reset to default
+
+                // Fetch the reviews again to show the newly added review
+                const updatedReviewsResponse = await fetch(
+                    `http://localhost:3001/api/reviews/meals/${id}/reviews`
+                );
+                const updatedReviews = await updatedReviewsResponse.json();
+                setReviews(updatedReviews);
             } else {
                 throw new Error("Failed to add review");
             }
@@ -130,16 +167,40 @@ const MealDetailPage = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        {/* Replace with Button component */}
                         <Button type="submit" className={styles.button}>
                             Book Seat
                         </Button>
                     </form>
                 )}
 
+                {/* Reviews Section */}
+                <div className={styles.reviewsSection}>
+                    <h2>Reviews</h2>
+                    {reviews.length > 0 ? (
+                        <ul>
+                            {reviews.map((review) => (
+                                <li key={review.id}>
+                                    <p className={styles.reviewsDate}>
+                                        Posted on: {formatDate(review.created_date)}
+                                    </p>
+                                    <strong>{review.title}</strong> ({review.stars} Stars)
+                                    <p>{review.description}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No reviews for this meal yet.</p>
+                    )}
+                </div>
+
+                {/* Review Form */}
                 {/* Review Form */}
                 <h2>Leave a Review</h2>
                 <form onSubmit={handleReview}>
+                    <label>Rating:</label>
+                    <div className={styles.ratingContainer}>
+                        <StarRating value={stars} onChange={setStars} />
+                    </div>
                     <input
                         type="text"
                         placeholder="Review Title"
@@ -153,19 +214,12 @@ const MealDetailPage = () => {
                         onChange={(e) => setReviewDescription(e.target.value)}
                         required
                     />
-                    <label>Rating:</label>
-                    <select value={stars} onChange={(e) => setStars(Number(e.target.value))}>
-                        <option value="1">1 Star</option>
-                        <option value="2">2 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="5">5 Stars</option>
-                    </select>
-                    {/* Replace with Button component */}
+
                     <Button type="submit" className={styles.button}>
                         Submit Review
                     </Button>
                 </form>
+
                 {message && <p>{message}</p>}
             </div>
         </div>

@@ -87,3 +87,51 @@
 .container form select {
     margin-bottom: 20px; /* Space below select */
 }
+
+.reviewsSection {
+    margin-top: 20px; /* Space above the reviews section */
+    padding: 20px; /* Padding inside the reviews section */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.reviewsSection h2 {
+    margin-top: 0; /* No top margin for the h2 */
+    font-size: 1.5rem; /* Font size for the reviews section title */
+}
+
+.reviewsSection ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+}
+
+.reviewsSection li {
+    margin-bottom: 15px; /* Space below each review */
+    padding: 10px; /* Padding inside each review */
+    border: 1px solid #ddd; /* Light border for each review */
+    border-radius: 4px; /* Rounded corners for review */
+    background-color: #f9f9f9; /* Light background for review */
+}
+
+/* Additional styling for review details */
+.reviewsSection strong {
+    display: block; /* Make the title block-level */
+    font-size: 1.2rem; /* Slightly larger font for the title */
+    margin-bottom: 5px; /* Space below the title */
+}
+
+.reviewsSection p {
+    margin: 5px 0; /* Space between review details */
+}
+
+.reviewsDate {
+    color: rgb(128, 128, 128);
+    font-size: 0.5rem; /* Ensure this value is appropriate for your design */
+    float: right;
+}
+
+.ratingContainer {
+    margin-top: 10px; /* Adds space above the rating stars */
+    margin-bottom: 20px; /* Adds space below the rating stars */
+}

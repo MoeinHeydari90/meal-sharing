@@ -1,8 +1,8 @@
 /* src/components/Header.module.css */
 .header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; /* Space between logo and nav */
+    align-items: center; /* Center items vertically */
     padding: 20px;
     background-color: rgba(19, 19, 19, 0.6);
     color: #fff; /* White text */
@@ -25,6 +25,7 @@
 .navList {
     list-style: none; /* Remove bullet points */
     display: flex; /* Horizontal layout */
+    align-items: center; /* Center items vertically within the nav list */
 }
 
 .navList li {
@@ -34,10 +35,22 @@
 }
 
 .navList li:hover {
-    color: #009b77; /* Highlight color on hover */
+    color: #00c194; /* Highlight color on hover */
 }
 
 .activeNavItem {
-    color: #009b77; /* Change color for active item */
+    color: #00c194; /* Change color for active item */
     font-weight: bold; /* Bold text for active item */
+}
+
+/* Styles for language switcher */
+.languageSwitcher {
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.flagImage {
+    width: 40px; /* Width for flag image */
+    height: 40px;
+    margin-left: 15px; /* Space between flags and nav items */
+    border-radius: 85% 15% 15% 85% / 50% 50% 50% 50%; /* top-left, top-right, bottom-right, bottom-left */
 }

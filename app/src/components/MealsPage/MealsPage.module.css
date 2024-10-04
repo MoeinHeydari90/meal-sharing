@@ -40,8 +40,10 @@
     box-shadow: 0 0 5px rgba(0, 155, 119, 0.5); /* Add shadow on focus for emphasis */
 }
 
-.controls select:hover {
-    border-color: #009b77; /* Change border color on hover */
+.controls select:hover,
+.searchInput:hover {
+    border-color: #00c194; /* Change border color on hover */
+    cursor: pointer;
 }
 
 .mealsGrid {
@@ -84,10 +86,11 @@
     width: 250px; /* Set a fixed width for the search input */
     transition: border-color 0.3s; /* Smooth transition for border color */
     box-shadow: 0 0 5px rgba(0, 155, 119, 0.5); /* Add shadow on focus for emphasis */
+    cursor: pointer;
 }
 
 .searchInput:focus {
-    border-color: #009b77; /* Change border color on focus */
+    border-color: #00c194; /* Change border color on focus */
     outline: none; /* Remove default outline */
     box-shadow: 0 0 5px rgba(0, 155, 119, 0.5); /* Add shadow on focus for emphasis */
 }
