@@ -1,7 +1,7 @@
 // src/MealsPage.jsx
 import React, { useState } from "react";
 import MealsList from "../MealsList"; // Import the MealsList component
-import styles from "./MealsPage.module.css"; // Optional: Create a CSS module for styling
+import styles from "./MealsPage.module.css"; // Import CSS module
 import { useRouter } from "next/router"; // Import useRouter
 
 const MealsPage = () => {
@@ -28,7 +28,7 @@ const MealsPage = () => {
     return (
         <div className={styles.mealsPage}>
             <div className={styles.controls}>
-                <div>
+                <div className={styles.sortWrapper}>
                     <label htmlFor="sortKey">Sort By:</label>
                     <select id="sortKey" value={sortKey} onChange={handleSortKeyChange}>
                         <option value="when">Date</option>
@@ -36,7 +36,7 @@ const MealsPage = () => {
                         <option value="price">Price</option>
                     </select>
                 </div>
-                <div>
+                <div className={styles.sortWrapper}>
                     <label htmlFor="sortDir">Order:</label>
                     <select id="sortDir" value={sortDir} onChange={handleSortDirChange}>
                         <option value="ASC">Ascending</option>

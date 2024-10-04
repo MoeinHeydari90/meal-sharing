@@ -43,7 +43,6 @@
     font-weight: bold; /* Bold text for active item */
 }
 
-/* Styles for language switcher */
 .languageSwitcher {
     cursor: pointer; /* Pointer cursor on hover */
 }
@@ -52,5 +51,24 @@
     width: 40px; /* Width for flag image */
     height: 40px;
     margin-left: 15px; /* Space between flags and nav items */
-    border-radius: 85% 15% 15% 85% / 50% 50% 50% 50%; /* top-left, top-right, bottom-right, bottom-left */
+    border-radius: 85% 15% 15% 85% / 50% 50% 50% 50%; /* Rounded corners */
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center; /* Center items horizontally */
+    }
+
+    .navList {
+        flex-direction: row; /* Keep items in a row */
+        justify-content: center; /* Center align */
+        width: 100%; /* Full width for nav list */
+        margin-top: 10px; /* Space above nav items */
+    }
+
+    .navList li {
+        margin: 0 5px; /* Reduced space between menu items */
+    }
 }

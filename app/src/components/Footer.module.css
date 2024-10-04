@@ -51,3 +51,10 @@
     width: 600px; /* Width of the divider line */
     border-bottom: 1px solid #00c194; /* Divider line color */
 }
+
+@media (max-width: 768px) {
+    .dividerLine {
+        width: 300px; /* Width of the divider line */
+        border-bottom: 1px solid #00c194; /* Divider line color */
+    }
+}

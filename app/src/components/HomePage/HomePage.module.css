@@ -1,40 +1,116 @@
 /* src/components/HomePage/HomePage.module.css */
 
-.container {
-    position: relative; /* Keep this for video positioning */
-    text-align: center; /* Center the text */
-    overflow: hidden; /* Prevent any overflow */
+.homepage {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
     background-color: #333;
 }
 
-.videoContainer {
-    position: relative; /* To position the overlay text */
-    overflow: hidden; /* Hide any overflowing content */
-    margin-bottom: 0; /* Remove bottom margin to avoid gap */
+.videoWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.video {
-    width: 100%; /* Ensure the video covers 100% of the width */
-    height: auto; /* Maintain aspect ratio */
+.backgroundVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the entire container */
+    z-index: 1;
 }
 
-.overlayText {
-    position: absolute; /* Overlay text on top of the video */
-    top: 20%; /* Adjust as needed */
-    left: 25%;
+.textOverlay {
+    position: relative;
+    z-index: 2; /* Ensures text is above the video */
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0 20px; /* Adds padding to prevent text from touching the screen edges */
+}
 
-    color: white; /* Ensure text is readable */
-    font-size: 4rem; /* Adjust font size */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Optional: add shadow for better readability */
+.mainTitle {
+    font-size: 3rem;
+    margin: 0;
+    margin-bottom: 20px;
 }
 
 .subtitle {
-    margin-top: 400px; /* Add spacing from the video */
-    font-size: 2rem; /* Adjust font size */
+    font-size: 2rem;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
-.text {
-    margin-top: 10px; /* Add spacing from the subtitle */
-    font-size: 1.2rem; /* Adjust font size */
-    color: #ffffff; /* Color for the text */
+.description {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Media Queries for responsive design */
+
+/* Large screens */
+@media (min-width: 1200px) {
+    .mainTitle {
+        font-size: 5rem;
+    }
+
+    .subtitle {
+        font-size: 3rem;
+    }
+
+    .description {
+        font-size: 1.5rem;
+    }
+}
+
+/* Medium screens */
+@media (max-width: 1024px) {
+    .mainTitle {
+        font-size: 4rem;
+    }
+
+    .subtitle {
+        font-size: 2.5rem;
+    }
+
+    .description {
+        font-size: 1.3rem;
+    }
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+    .mainTitle {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 2rem;
+    }
+
+    .description {
+        font-size: 1.1rem;
+    }
+}
+
+/* Extra small screens (mobile) */
+@media (max-width: 480px) {
+    .mainTitle {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1.5rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
 }

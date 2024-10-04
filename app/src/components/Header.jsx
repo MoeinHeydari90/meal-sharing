@@ -21,48 +21,53 @@ const Header = () => {
                     <img src="logo.png" alt="Meal Sharing Logo" className={styles.logoImage} />
                 </Link>
             </div>
-            <nav>
-                <ul className={styles.navList}>
-                    <li>
-                        <Link
-                            href="/meals"
-                            className={router.pathname === "/meals" ? styles.activeNavItem : ""}
-                        >
-                            Meals
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/about"
-                            className={router.pathname === "/about" ? styles.activeNavItem : ""}
-                        >
-                            About
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            href="/join-us"
-                            className={router.pathname === "/join-us" ? styles.activeNavItem : ""}
-                        >
-                            Join us
-                        </Link>
-                    </li>
-                    <li>
-                        {" "}
-                        <div className={styles.languageSwitcher} onClick={toggleLanguage}>
-                            <img
-                                src={
-                                    isEnglish
-                                        ? "https://vectorflags.s3.amazonaws.com/flags/uk-button-01.png"
-                                        : "https://vectorflags.s3-us-west-2.amazonaws.com/flags/dk-button-01.png"
+            <div className={styles.navContainer}>
+                {" "}
+                {/* New container for navigation */}
+                <nav>
+                    <ul className={styles.navList}>
+                        <li>
+                            <Link
+                                href="/meals"
+                                className={router.pathname === "/meals" ? styles.activeNavItem : ""}
+                            >
+                                Meals
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/about"
+                                className={router.pathname === "/about" ? styles.activeNavItem : ""}
+                            >
+                                About
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/join-us"
+                                className={
+                                    router.pathname === "/join-us" ? styles.activeNavItem : ""
                                 }
-                                alt={isEnglish ? "English Flag" : "Danish Flag"}
-                                className={styles.flagImage}
-                            />
-                        </div>
-                    </li>
-                </ul>
-            </nav>
+                            >
+                                Join us
+                            </Link>
+                        </li>
+                        <li>
+                            <div className={styles.languageSwitcher} onClick={toggleLanguage}>
+                                <img
+                                    src={
+                                        isEnglish
+                                            ? "https://vectorflags.s3.amazonaws.com/flags/uk-button-01.png"
+                                            : "https://vectorflags.s3-us-west-2.amazonaws.com/flags/dk-button-01.png"
+                                    }
+                                    alt={isEnglish ? "English Flag" : "Danish Flag"}
+                                    className={styles.flagImage}
+                                />
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </header>
     );
 };

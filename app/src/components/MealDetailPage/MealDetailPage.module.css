@@ -114,7 +114,6 @@
     background-color: #f9f9f9; /* Light background for review */
 }
 
-/* Additional styling for review details */
 .reviewsSection strong {
     display: block; /* Make the title block-level */
     font-size: 1.2rem; /* Slightly larger font for the title */
