@@ -34,7 +34,7 @@ const JoinUsPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.subscriptionBox}>
-                <h2>Join my meal sharing website to see the most recent meals</h2>
+                <h2>Join our meal sharing website to see the most recent meals</h2>
                 <p>You can unsubscribe at any time.</p>
                 <form className={styles.subscriptionForm} onSubmit={handleSubmit}>
                     <input

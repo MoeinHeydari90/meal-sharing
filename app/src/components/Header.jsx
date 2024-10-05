@@ -52,19 +52,18 @@ const Header = () => {
                                 Join us
                             </Link>
                         </li>
-                        <li>
-                            <div className={styles.languageSwitcher} onClick={toggleLanguage}>
-                                <img
-                                    src={
-                                        isEnglish
-                                            ? "https://vectorflags.s3.amazonaws.com/flags/uk-button-01.png"
-                                            : "https://vectorflags.s3-us-west-2.amazonaws.com/flags/dk-button-01.png"
-                                    }
-                                    alt={isEnglish ? "English Flag" : "Danish Flag"}
-                                    className={styles.flagImage}
-                                />
-                            </div>
-                        </li>
+
+                        <div className={styles.languageSwitcher} onClick={toggleLanguage}>
+                            <img
+                                src={
+                                    isEnglish
+                                        ? "https://vectorflags.s3.amazonaws.com/flags/uk-button-01.png"
+                                        : "https://vectorflags.s3-us-west-2.amazonaws.com/flags/dk-button-01.png"
+                                }
+                                alt={isEnglish ? "English Flag" : "Danish Flag"}
+                                className={styles.flagImage}
+                            />
+                        </div>
                     </ul>
                 </nav>
             </div>

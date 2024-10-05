@@ -10,14 +10,17 @@
 .header {
     text-align: center; /* Center the header text */
     font-size: 2rem; /* Increase the header font size */
-    margin-bottom: 20px; /* Space below header */
-    margin-top: 100px; /* Space below header */
+    margin: 100px 0 20px; /* Space above and below header */
 }
 
 .image {
     width: 100%; /* Full width image */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 600px; /* Set a maximum width for the image */
+    height: 400px; /* Set a fixed height */
+    object-fit: cover; /* Ensure the image covers the area and maintains aspect ratio */
     border-radius: 8px; /* Rounded corners */
+    display: block; /* Ensures no space below the image */
+    margin: 0 auto; /* Center the image horizontally */
 }
 
 .details {
@@ -27,23 +30,6 @@
 .details p {
     margin: 10px 0; /* Space between paragraphs */
     font-size: 16px; /* Font size */
-}
-
-.button {
-    display: inline-block; /* Inline block for button */
-    padding: 10px 20px; /* Button padding */
-    background-color: #0070f3; /* Button color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    text-align: center; /* Center text */
-    text-decoration: none; /* Remove underline */
-    margin-top: 10px; /* Space above button */
-}
-
-.button:hover {
-    background-color: #005bb5; /* Darker shade on hover */
 }
 
 /* Styles for the reservation form */
@@ -56,8 +42,7 @@
 }
 
 .container form input,
-.container form textarea,
-.container form select {
+.container form textarea {
     width: calc(100% - 20px); /* Full width inputs minus padding */
     padding: 10px; /* Padding inside inputs */
     margin: 10px 0; /* Space between inputs */
@@ -67,25 +52,14 @@
 }
 
 .container form input:focus,
-.container form textarea:focus,
-.container form select:focus {
+.container form textarea:focus {
     border-color: #0070f3; /* Change border color on focus */
     outline: none; /* Remove default outline */
 }
 
 .container h2 {
-    /* Scoped the h2 selector */
-    margin-top: 20px; /* Space above the review section */
-    font-size: 1.5rem; /* Font size for the review title */
-}
-
-.container form textarea {
-    /* Scoped textarea */
-    min-height: 80px; /* Set minimum height for textarea */
-}
-
-.container form select {
-    margin-bottom: 20px; /* Space below select */
+    margin-top: 20px; /* Space above the section title */
+    font-size: 1.5rem; /* Font size for section titles */
 }
 
 .reviewsSection {
@@ -94,11 +68,6 @@
     background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-}
-
-.reviewsSection h2 {
-    margin-top: 0; /* No top margin for the h2 */
-    font-size: 1.5rem; /* Font size for the reviews section title */
 }
 
 .reviewsSection ul {
@@ -110,8 +79,8 @@
     margin-bottom: 15px; /* Space below each review */
     padding: 10px; /* Padding inside each review */
     border: 1px solid #ddd; /* Light border for each review */
-    border-radius: 4px; /* Rounded corners for review */
-    background-color: #f9f9f9; /* Light background for review */
+    border-radius: 4px; /* Rounded corners for reviews */
+    background-color: #f9f9f9; /* Light background for reviews */
 }
 
 .reviewsSection strong {
@@ -120,17 +89,39 @@
     margin-bottom: 5px; /* Space below the title */
 }
 
-.reviewsSection p {
-    margin: 5px 0; /* Space between review details */
-}
-
 .reviewsDate {
     color: rgb(128, 128, 128);
-    font-size: 0.5rem; /* Ensure this value is appropriate for your design */
-    float: right;
+    font-size: 0.8rem; /* Adjust font size for the date */
 }
 
 .ratingContainer {
     margin-top: 10px; /* Adds space above the rating stars */
     margin-bottom: 20px; /* Adds space below the rating stars */
+}
+
+.reviewHeader {
+    display: flex;
+    flex-direction: column; /* Stack stars and title vertically */
+    align-items: flex-start; /* Align stars and title to the left */
+    margin-bottom: 5px; /* Space below the header */
+}
+
+.starDisplay {
+    margin-bottom: 5px; /* Add space between stars and title */
+    transform: scale(0.7); /* Scale the stars down */
+    display: flex;
+    align-items: center; /* Ensure stars are aligned correctly */
+}
+@media (max-width: 768px) {
+    .header {
+        margin-top: 150px; /* Increase the margin to account for header height on small screens */
+        font-size: 1.8rem; /* Slightly smaller font size for small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        margin-top: 160px; /* Further adjust margin for very small screens */
+        font-size: 1.5rem; /* Smaller font size for very small screens */
+    }
 }

@@ -1,4 +1,3 @@
-// src/components/MealDetailPage/MealDetailPage.jsx
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./MealDetailPage.module.css"; // Import CSS module
@@ -12,10 +11,10 @@ const MealDetailPage = () => {
     const [phoneno, setPhoneno] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [numberOfGuests, setNumberOfGuests] = useState(1); // New state for number of guests
     const [reviewTitle, setReviewTitle] = useState("");
     const [reviewDescription, setReviewDescription] = useState("");
     const [stars, setStars] = useState(1); // Default to 1 star
-    const [message, setMessage] = useState("");
     const [reviews, setReviews] = useState([]); // State to store reviews
 
     useEffect(() => {
@@ -73,23 +72,29 @@ const MealDetailPage = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    phoneno,
-                    name,
-                    email,
+                    number_of_guests: numberOfGuests, // Include number of guests
                     meal_id: id, // Include meal ID
+                    created_date: new Date().toISOString().split("T")[0], // Add created_date
+                    contact_phonenumber: phoneno, // Phone number
+                    contact_name: name, // Name
+                    contact_email: email, // Email
                 }),
             });
 
             if (response.ok) {
-                setMessage("Reservation successful!");
+                alert("Reservation successful! We look forward to seeing you.");
                 setPhoneno("");
                 setName("");
                 setEmail("");
+                setNumberOfGuests(1); // Reset the guests number after reservation
             } else {
-                throw new Error("Failed to make a reservation");
+                const errorData = await response.json(); // Try to get the error message from the response
+                throw new Error(
+                    errorData.message || "Failed to make a reservation. Please try again."
+                );
             }
         } catch (error) {
-            setMessage(error.message);
+            alert(error.message); // Show an error alert
         }
     };
 
@@ -111,7 +116,7 @@ const MealDetailPage = () => {
             });
 
             if (response.ok) {
-                setMessage("Review added successfully!");
+                alert("Review added successfully!");
                 setReviewTitle("");
                 setReviewDescription("");
                 setStars(1); // Reset to default
@@ -126,7 +131,7 @@ const MealDetailPage = () => {
                 throw new Error("Failed to add review");
             }
         } catch (error) {
-            setMessage(error.message);
+            alert(error.message); // Show an error alert
         }
     };
 
@@ -148,13 +153,6 @@ const MealDetailPage = () => {
                     <form onSubmit={handleReservation}>
                         <input
                             type="text"
-                            placeholder="Phone Number"
-                            value={phoneno}
-                            onChange={(e) => setPhoneno(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="text"
                             placeholder="Your Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -167,9 +165,22 @@ const MealDetailPage = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <Button type="submit" className={styles.button}>
-                            Book Seat
-                        </Button>
+                        <input
+                            type="number"
+                            placeholder="Phone Number"
+                            value={phoneno}
+                            onChange={(e) => setPhoneno(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="number"
+                            min="1"
+                            placeholder="Number of Guests"
+                            value={numberOfGuests}
+                            onChange={(e) => setNumberOfGuests(e.target.value)}
+                            required
+                        />
+                        <Button type="submit">Book Seat</Button>
                     </form>
                 )}
 
@@ -181,9 +192,14 @@ const MealDetailPage = () => {
                             {reviews.map((review) => (
                                 <li key={review.id}>
                                     <p className={styles.reviewsDate}>
-                                        Posted on: {formatDate(review.created_date)}
+                                        {formatDate(review.created_date)}
                                     </p>
-                                    <strong>{review.title}</strong> ({review.stars} Stars)
+                                    <div className={styles.reviewHeader}>
+                                        <div className={styles.starDisplay}>
+                                            <StarRating value={review.stars} readOnly />
+                                        </div>
+                                        <strong>{review.title}</strong>
+                                    </div>
                                     <p>{review.description}</p>
                                 </li>
                             ))}
@@ -193,7 +209,6 @@ const MealDetailPage = () => {
                     )}
                 </div>
 
-                {/* Review Form */}
                 {/* Review Form */}
                 <h2>Leave a Review</h2>
                 <form onSubmit={handleReview}>
@@ -215,12 +230,8 @@ const MealDetailPage = () => {
                         required
                     />
 
-                    <Button type="submit" className={styles.button}>
-                        Submit Review
-                    </Button>
+                    <Button type="submit">Submit Review</Button>
                 </form>
-
-                {message && <p>{message}</p>}
             </div>
         </div>
     );
