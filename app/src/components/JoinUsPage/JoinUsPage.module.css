@@ -1,41 +1,41 @@
 /* src/JoinUsPage.module.css */
 
 .container {
-    background-image: url("https://img.freepik.com/free-photo/raw-chicken-breast-dark-background_1220-2990.jpg?t=st=1727822172~exp=1727825772~hmac=2a4cb234aec67aab2dc103e1484a8b0f0bc3149ede190c0187b3943a14ba6c94&w=1380"); /* Ensure you set the correct path */
-    background-size: cover; /* Cover the entire page */
-    background-position: center; /* Center the image */
-    background-attachment: fixed; /* Fix the background image */
-    min-height: 100vh; /* Minimum height to fill the viewport */
-    display: flex; /* To align content */
-    flex-direction: column; /* Vertical alignment */
-    justify-content: center; /* Center vertically */
-    align-items: flex-start; /* Align items to the start (left) */
-    color: white; /* Text color */
-    text-align: left; /* Left-align text */
-    padding: 40px; /* Padding for spacing */
-    position: relative; /* To create a stacking context */
+    background-image: url("https://img.freepik.com/free-photo/raw-chicken-breast-dark-background_1220-2990.jpg?t=st=1727822172~exp=1727825772~hmac=2a4cb234aec67aab2dc103e1484a8b0f0bc3149ede190c0187b3943a14ba6c94&w=1380");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: white;
+    text-align: left;
+    padding: 40px;
+    position: relative;
 }
 
 /* Semi-transparent overlay */
 .container::before {
-    content: ""; /* To create a semi-transparent overlay */
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
-    z-index: 1; /* Layer below the text */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 .subscriptionBox {
-    background-color: #fff; /* White background for the subscription box */
-    padding: 30px; /* Padding for the box */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    text-align: center; /* Center align text */
-    width: 100%; /* Full width */
-    max-width: 400px; /* Max width of the subscription box */
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
     z-index: 5;
     position: absolute;
     right: 20%;
@@ -43,28 +43,99 @@
 
 /* Scope h2 and p styles under the subscriptionBox */
 .subscriptionBox h2 {
-    margin-bottom: 10px; /* Space below heading */
-    font-size: 1.5rem; /* Font size */
-    color: #333; /* Dark text color */
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #333;
 }
 
 .subscriptionBox p {
-    margin-bottom: 20px; /* Space below paragraph */
-    color: #666; /* Gray color for the message */
+    margin-bottom: 20px;
+    color: #666;
 }
 
 .subscriptionForm {
-    display: flex; /* Use flexbox for layout */
-    justify-content: center; /* Center elements */
-    align-items: center; /* Center vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .emailInput {
-    padding: 10px; /* Padding for the input */
-    border: 1px solid #ddd; /* Light gray border */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 1rem; /* Font size */
-    color: #333; /* Dark text color */
-    margin-right: 10px; /* Space between input and button */
-    flex: 1; /* Take available space */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    margin-right: 10px;
+    flex: 1;
+}
+
+/* Media Queries for smaller screens */
+
+/* Medium screens (tablets, max-width: 1024px) */
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px; /* Reduce padding */
+    }
+
+    .subscriptionBox {
+        right: 10%; /* Reduce the right margin */
+        max-width: 90%; /* Make subscription box wider */
+    }
+
+    .subscriptionBox h2 {
+        font-size: 1.3rem; /* Adjust font size for heading */
+    }
+
+    .emailInput {
+        font-size: 0.95rem; /* Slightly smaller input text */
+        margin-right: 5px; /* Reduce space between input and button */
+    }
+}
+
+/* Small screens (mobile phones, max-width: 768px) */
+@media (max-width: 768px) {
+    .subscriptionBox {
+        position: static; /* Remove absolute positioning */
+        margin: 0 auto; /* Center the subscription box */
+        max-width: 100%; /* Take full width */
+        padding: 20px; /* Reduce padding */
+        transform: none; /* Remove transform */
+    }
+
+    .subscriptionBox h2 {
+        font-size: 1.2rem; /* Smaller font size for heading */
+    }
+
+    .subscriptionBox p {
+        font-size: 1rem; /* Adjust font size for paragraph */
+    }
+
+    .emailInput {
+        font-size: 0.9rem; /* Smaller font size */
+        padding: 8px; /* Reduce padding */
+    }
+}
+
+/* Extra small screens (very small mobile, max-width: 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px; /* Further reduce padding */
+    }
+
+    .subscriptionBox {
+        padding: 15px; /* Reduce padding */
+    }
+
+    .subscriptionBox h2 {
+        font-size: 1.1rem; /* Reduce heading size */
+    }
+
+    .subscriptionBox p {
+        font-size: 0.9rem; /* Reduce paragraph text size */
+    }
+
+    .emailInput {
+        padding: 6px; /* Further reduce padding */
+        font-size: 0.85rem; /* Further reduce input text size */
+    }
 }
