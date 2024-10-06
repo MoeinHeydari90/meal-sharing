@@ -1,6 +1,7 @@
 // src/components/Meal.jsx
 import React from "react";
 import styles from "./Meal.module.css"; // Ensure correct import
+import { formatDate } from "../utils"; // Import the formatDate function
 
 const Meal = ({ meal }) => {
     const availableSpots = meal.max_reservations - meal.current_reservations; // Calculate available spots
@@ -17,7 +18,7 @@ const Meal = ({ meal }) => {
                 <strong>Location:</strong> {meal.location}
             </p>
             <p className={styles.mealDate}>
-                <strong>Date:</strong> {new Date(meal.when).toLocaleDateString()}
+                <strong>Date:</strong> {formatDate(meal.when)} {/* Use the formatDate function */}
             </p>
             <p className={styles.mealPrice}>
                 <strong>Price:</strong> ${parseFloat(meal.price).toFixed(2)}

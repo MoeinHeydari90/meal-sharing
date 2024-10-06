@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import MealsList from "../MealsList"; // Import the MealsList component
 import styles from "./MealsPage.module.css"; // Import CSS module
 import { useRouter } from "next/router"; // Import useRouter
+import InputField from "../InputField"; // Import InputField component
 
 const MealsPage = () => {
     const router = useRouter(); // Initialize router
@@ -44,7 +45,7 @@ const MealsPage = () => {
                     </select>
                 </div>
                 <form onSubmit={handleSearch} className={styles.searchForm}>
-                    <input
+                    <InputField
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}

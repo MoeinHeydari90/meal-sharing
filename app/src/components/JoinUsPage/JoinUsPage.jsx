@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import styles from "./JoinUsPage.module.css";
 import Button from "../Button";
+import InputField from "../InputField"; // Import the new InputField component
 
 const JoinUsPage = () => {
     const [email, setEmail] = useState("");
-    const [message, setMessage] = useState(""); // State to hold success/error message
+    const [message, setMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,10 +38,9 @@ const JoinUsPage = () => {
                 <h2>Join our meal sharing website to see the most recent meals</h2>
                 <p>You can unsubscribe at any time.</p>
                 <form className={styles.subscriptionForm} onSubmit={handleSubmit}>
-                    <input
+                    <InputField
                         type="email"
                         placeholder="Your Email"
-                        className={styles.emailInput}
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}

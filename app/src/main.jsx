@@ -7,6 +7,7 @@ import HomePage from "./components/HomePage/HomePage"; // Import HomePage
 import MealsPage from "./components/MealsPage/MealsPage"; // Import MealsPage
 import MealDetailPage from "./components/MealDetailPage/MealDetailPage"; // Import MealDetailPage
 import JoinUsPage from "./components/JoinUsPage/JoinUsPage"; // Import JoinUsPage
+import AddMealPage from "./components/AddMealPage/AddMealPage"; // Import the AddMealPage
 
 const theme = createTheme(); // Create a default theme
 
@@ -22,6 +23,7 @@ const App = () => {
                     <Route path="/meals/:id" component={MealDetailPage} />
                     <Route path="/about" component={AboutPage} />
                     <Route path="/join-us" component={JoinUsPage} />
+                    <Route path="/add-meal" component={AddMealPage} />
                 </Switch>
             </Router>
         </ThemeProvider>

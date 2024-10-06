@@ -1,8 +1,11 @@
+// src/components/MealDetailPage/MealDetailPage.jsx
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./MealDetailPage.module.css"; // Import CSS module
 import Button from "../Button"; // Import the Button component
 import StarRating from "../StarRating"; // Import StarRating component
+import InputField from "../InputField"; // Import the InputField component
+import { formatDate } from "../../utils"; // Import the formatDate function
 
 const MealDetailPage = () => {
     const router = useRouter();
@@ -53,15 +56,6 @@ const MealDetailPage = () => {
         fetchMeal();
         fetchReviews();
     }, [id]);
-
-    // Function to format a date string into the 'dd/mm/yy' format
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = String(date.getFullYear()).slice(-2);
-        return `${day}/${month}/${year}`;
-    };
 
     const handleReservation = async (e) => {
         e.preventDefault();
@@ -144,35 +138,34 @@ const MealDetailPage = () => {
             <div className={styles.details}>
                 <p>{meal.description}</p>
                 <p>Location: {meal.location}</p>
-                <p>Date: {new Date(meal.when).toLocaleDateString()}</p>
+                <p>Date: {formatDate(meal.when)}</p> {/* Use the formatDate function */}
                 <p>Price: ${parseFloat(meal.price).toFixed(2)}</p>
                 <p>Available Reservations: {meal.max_reservations - meal.current_reservations}</p>
-
                 {/* Reservation Form */}
                 {meal.max_reservations > meal.current_reservations && (
                     <form onSubmit={handleReservation}>
-                        <input
+                        <InputField
                             type="text"
                             placeholder="Your Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
-                        <input
+                        <InputField
                             type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
-                        <input
+                        <InputField
                             type="number"
                             placeholder="Phone Number"
                             value={phoneno}
                             onChange={(e) => setPhoneno(e.target.value)}
                             required
                         />
-                        <input
+                        <InputField
                             type="number"
                             min="1"
                             placeholder="Number of Guests"
@@ -183,7 +176,6 @@ const MealDetailPage = () => {
                         <Button type="submit">Book Seat</Button>
                     </form>
                 )}
-
                 {/* Reviews Section */}
                 <div className={styles.reviewsSection}>
                     <h2>Reviews</h2>
@@ -208,7 +200,6 @@ const MealDetailPage = () => {
                         <p>No reviews for this meal yet.</p>
                     )}
                 </div>
-
                 {/* Review Form */}
                 <h2>Leave a Review</h2>
                 <form onSubmit={handleReview}>
@@ -216,14 +207,15 @@ const MealDetailPage = () => {
                     <div className={styles.ratingContainer}>
                         <StarRating value={stars} onChange={setStars} />
                     </div>
-                    <input
+                    <InputField
                         type="text"
                         placeholder="Review Title"
                         value={reviewTitle}
                         onChange={(e) => setReviewTitle(e.target.value)}
                         required
                     />
-                    <textarea
+                    <InputField
+                        type="textarea"
                         placeholder="Review Description"
                         value={reviewDescription}
                         onChange={(e) => setReviewDescription(e.target.value)}

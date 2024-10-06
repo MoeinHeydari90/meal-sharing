@@ -52,6 +52,16 @@ const Header = () => {
                                 Join us
                             </Link>
                         </li>
+                        <li>
+                            <Link
+                                href="/add-meal"
+                                className={
+                                    router.pathname === "/add-meal" ? styles.activeNavItem : ""
+                                }
+                            >
+                                Add Meal
+                            </Link>
+                        </li>
 
                         <div className={styles.languageSwitcher} onClick={toggleLanguage}>
                             <img
