@@ -93,8 +93,7 @@
 .starDisplay {
     margin-bottom: 5px; /* Add space between stars and title */
     transform: scale(0.7); /* Scale the stars down */
-    display: flex;
-    align-items: center; /* Ensure stars are aligned correctly */
+    margin-left: -20px;
 }
 @media (max-width: 768px) {
     .header {

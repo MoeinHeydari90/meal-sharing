@@ -2,6 +2,7 @@
 import React from "react";
 import styles from "./Meal.module.css"; // Ensure correct import
 import { formatDate } from "../utils"; // Import the formatDate function
+import StarRating from "./StarRating";
 
 const Meal = ({ meal }) => {
     const availableSpots = meal.max_reservations - meal.current_reservations; // Calculate available spots
@@ -21,12 +22,20 @@ const Meal = ({ meal }) => {
                 <strong>Date:</strong> {formatDate(meal.when)} {/* Use the formatDate function */}
             </p>
             <p className={styles.mealPrice}>
-                <strong>Price:</strong> ${parseFloat(meal.price).toFixed(2)}
+                <strong>Price:</strong> DKK {parseFloat(meal.price).toFixed(2)}
             </p>
             {/* Show available spots */}
             <p className={styles.availableSpots}>
                 <strong>Available Spots:</strong>{" "}
                 {availableSpots > 0 ? availableSpots : "Fully Booked"}
+            </p>
+            {/* Display average rating as read-only */}
+            <p className={styles.averageRating}>
+                {meal.averageRating ? (
+                    <StarRating value={meal.averageRating} readOnly />
+                ) : (
+                    "Not Rated"
+                )}
             </p>
         </div>
     );

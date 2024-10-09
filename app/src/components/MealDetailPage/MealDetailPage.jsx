@@ -59,6 +59,13 @@ const MealDetailPage = () => {
 
     const handleReservation = async (e) => {
         e.preventDefault();
+
+        const availableReservations = meal.max_reservations - meal.current_reservations;
+        if (numberOfGuests > availableReservations) {
+            alert(`You can only book up to ${availableReservations} guests.`);
+            return; // Prevent form submission
+        }
+
         try {
             const response = await fetch("http://localhost:3001/api/reservations", {
                 method: "POST",
@@ -136,10 +143,18 @@ const MealDetailPage = () => {
             <h1 className={styles.header}>{meal.title}</h1>
             <img src={meal.image_url} alt={meal.title} className={styles.image} />
             <div className={styles.details}>
+                {/* Display average rating as read-only */}
+                <p className={styles.averageRating}>
+                    {meal.averageRating ? (
+                        <StarRating value={meal.averageRating} readOnly />
+                    ) : (
+                        "Not Rated"
+                    )}
+                </p>
                 <p>{meal.description}</p>
                 <p>Location: {meal.location}</p>
                 <p>Date: {formatDate(meal.when)}</p> {/* Use the formatDate function */}
-                <p>Price: ${parseFloat(meal.price).toFixed(2)}</p>
+                <p>Price: DKK {parseFloat(meal.price).toFixed(2)}</p>
                 <p>Available Reservations: {meal.max_reservations - meal.current_reservations}</p>
                 {/* Reservation Form */}
                 {meal.max_reservations > meal.current_reservations && (
@@ -221,7 +236,6 @@ const MealDetailPage = () => {
                         onChange={(e) => setReviewDescription(e.target.value)}
                         required
                     />
-
                     <Button type="submit">Submit Review</Button>
                 </form>
             </div>
