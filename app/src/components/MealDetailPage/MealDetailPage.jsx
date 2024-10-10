@@ -20,39 +20,41 @@ const MealDetailPage = () => {
     const [stars, setStars] = useState(1); // Default to 1 star
     const [reviews, setReviews] = useState([]); // State to store reviews
 
+    // Function to fetch meal data
+    const fetchMeal = async () => {
+        if (id) {
+            try {
+                const response = await fetch(`http://localhost:3001/api/meals/${id}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setMeal(data);
+            } catch (error) {
+                console.error("Error fetching meal:", error);
+            }
+        }
+    };
+
+    // Function to fetch reviews
+    const fetchReviews = async () => {
+        if (id) {
+            try {
+                const response = await fetch(
+                    `http://localhost:3001/api/reviews/meals/${id}/reviews`
+                );
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setReviews(data);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        }
+    };
+
     useEffect(() => {
-        const fetchMeal = async () => {
-            if (id) {
-                try {
-                    const response = await fetch(`http://localhost:3001/api/meals/${id}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    setMeal(data);
-                } catch (error) {
-                    console.error("Error fetching meal:", error);
-                }
-            }
-        };
-
-        const fetchReviews = async () => {
-            if (id) {
-                try {
-                    const response = await fetch(
-                        `http://localhost:3001/api/reviews/meals/${id}/reviews`
-                    );
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    setReviews(data);
-                } catch (error) {
-                    console.error("Error fetching reviews:", error);
-                }
-            }
-        };
-
         fetchMeal();
         fetchReviews();
     }, [id]);
@@ -88,6 +90,10 @@ const MealDetailPage = () => {
                 setName("");
                 setEmail("");
                 setNumberOfGuests(1); // Reset the guests number after reservation
+
+                // Refresh meal and reviews after reservation
+                fetchMeal();
+                fetchReviews();
             } else {
                 const errorData = await response.json(); // Try to get the error message from the response
                 throw new Error(
@@ -123,11 +129,7 @@ const MealDetailPage = () => {
                 setStars(1); // Reset to default
 
                 // Fetch the reviews again to show the newly added review
-                const updatedReviewsResponse = await fetch(
-                    `http://localhost:3001/api/reviews/meals/${id}/reviews`
-                );
-                const updatedReviews = await updatedReviewsResponse.json();
-                setReviews(updatedReviews);
+                fetchReviews();
             } else {
                 throw new Error("Failed to add review");
             }

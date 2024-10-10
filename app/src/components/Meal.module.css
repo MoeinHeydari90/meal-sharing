@@ -46,9 +46,3 @@
     color: #0070f3; /* Color for the available spots text */
     font-weight: bold; /* Bold for emphasis */
 }
-
-.averageRating {
-    margin-top: 10px; /* Space above the average rating */
-    font-weight: bold; /* Make the text bold */
-    color: #00c194; /* Use the color for visibility */
-}

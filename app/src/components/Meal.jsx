@@ -9,8 +9,8 @@ const Meal = ({ meal }) => {
 
     // Function to truncate the description
     const truncateDescription = (description) => {
-        if (description.length > 100) {
-            return description.substring(0, 100) + "..."; // Truncate and add ellipses
+        if (description.length > 90) {
+            return description.substring(0, 90) + "..."; // Truncate and add ellipses
         }
         return description; // Return full description if under 100 characters
     };
