@@ -1,9 +1,9 @@
+// src/routers/meals.js
 import express from "express";
 import knex from "../database_client.js"; // Import the configured knex instance
 
 const mealsRouter = express.Router();
 
-// GET /api/meals - Returns all meals, with optional filtering
 // GET /api/meals - Returns all meals, with optional filtering
 mealsRouter.get("/", async (req, res) => {
     try {
@@ -46,7 +46,7 @@ mealsRouter.get("/", async (req, res) => {
 
         // Filter by title (case-insensitive)
         if (title) {
-            query = query.where("title", "like", `%${title}%`);
+            query = query.where("Meal.title", "like", `%${title}%`); // Specify table name
         }
 
         // Filter by meals after a specific date

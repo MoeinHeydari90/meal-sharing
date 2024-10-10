@@ -7,6 +7,14 @@ import StarRating from "./StarRating";
 const Meal = ({ meal }) => {
     const availableSpots = meal.max_reservations - meal.current_reservations; // Calculate available spots
 
+    // Function to truncate the description
+    const truncateDescription = (description) => {
+        if (description.length > 100) {
+            return description.substring(0, 100) + "..."; // Truncate and add ellipses
+        }
+        return description; // Return full description if under 100 characters
+    };
+
     return (
         <div className={styles.mealCard}>
             {/* Display the image */}
@@ -14,7 +22,7 @@ const Meal = ({ meal }) => {
                 <img src={meal.image_url} alt={meal.title} className={styles.mealImage} />
             )}
             <h3 className={styles.mealTitle}>{meal.title}</h3>
-            <p className={styles.mealDescription}>{meal.description}</p>
+            <p className={styles.mealDescription}>{truncateDescription(meal.description)}</p>
             <p className={styles.mealLocation}>
                 <strong>Location:</strong> {meal.location}
             </p>
@@ -30,13 +38,14 @@ const Meal = ({ meal }) => {
                 {availableSpots > 0 ? availableSpots : "Fully Booked"}
             </p>
             {/* Display average rating as read-only */}
-            <p className={styles.averageRating}>
+            <div className={styles.averageRating}>
+                <strong>Average Rating:</strong>{" "}
                 {meal.averageRating ? (
                     <StarRating value={meal.averageRating} readOnly />
                 ) : (
                     "Not Rated"
                 )}
-            </p>
+            </div>
         </div>
     );
 };

@@ -29,28 +29,27 @@
 
 .textOverlay {
     position: relative;
-    z-index: 2; /* Ensures text is above the video */
+    z-index: 2;
     color: white;
     text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 0 20px; /* Adds padding to prevent text from touching the screen edges */
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8);
 }
 
 .mainTitle {
-    font-size: 3rem;
-    margin: 0;
-    margin-bottom: 20px;
+    font-size: 4rem; /* Adjust as needed */
+    font-weight: bold; /* Bold font weight */
+    line-height: 1.2; /* Adjust line height */
 }
 
 .subtitle {
-    font-size: 2rem;
-    margin: 0;
-    margin-bottom: 10px;
+    font-size: 2.5rem; /* Adjust as needed */
+    font-weight: bold; /* Bold font weight */
+    line-height: 1.2; /* Adjust line height */
 }
 
 .description {
-    font-size: 1.2rem;
-    margin: 0;
+    font-size: 1.3rem; /* Adjust as needed */
+    line-height: 1.5; /* Increased line height for clarity */
 }
 
 /* Media Queries for responsive design */

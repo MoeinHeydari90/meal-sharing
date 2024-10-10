@@ -1,3 +1,4 @@
+// src/components/AddMealPage/AddMealPage.jsx
 import React, { useState } from "react";
 import styles from "./AddMealPage.module.css"; // Import CSS styles
 import Button from "../Button"; // Import the Button component
@@ -50,7 +51,7 @@ const AddMealPage = () => {
     return (
         <div className={styles.container}>
             <h1 className={styles.header}>Add a Meal</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <InputField
                     type="text"
                     placeholder="Title"

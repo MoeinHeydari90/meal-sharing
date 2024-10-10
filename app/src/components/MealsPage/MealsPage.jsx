@@ -48,7 +48,7 @@ const MealsPage = () => {
                     <InputField
                         type="text"
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(e) => setSearchTerm(e.target.value)} // Update the state as the user types
                         placeholder="Search meals..."
                         className={styles.searchInput}
                     />
