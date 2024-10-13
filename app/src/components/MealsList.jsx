@@ -1,17 +1,17 @@
-"use client"; // Mark as a client component
-
+// src/components/MealsList.jsx
 import React, { useState, useEffect } from "react";
 import Meal from "./Meal"; // Import the Meal component
 import Link from "next/link"; // Import Link for navigation
 import styles from "./MealsList.module.css"; // Optional: Create a CSS module for styling
 
-const MealsList = ({ searchTerm, sortKey, sortDir }) => {
+const MealsList = ({ searchTerm, sortKey, sortDir, availableOnly }) => {
     const [meals, setMeals] = useState([]);
 
-    // Fetch meals from API when the component mounts or when searchTerm, sortKey or sortDir changes
+    // Fetch meals from API when the component mounts or when searchTerm, sortKey, sortDir, or availableOnly changes
     useEffect(() => {
         const fetchMeals = async () => {
-            const apiUrl = `http://localhost:3001/api/meals?title=${searchTerm}&sortKey=${sortKey}&sortDir=${sortDir}`;
+            // Construct API URL based on filter options
+            const apiUrl = `http://localhost:3001/api/meals?title=${searchTerm}&sortKey=${sortKey}&sortDir=${sortDir}${availableOnly ? "&availableReservations=true" : ""}`;
 
             try {
                 const response = await fetch(apiUrl);
@@ -27,7 +27,7 @@ const MealsList = ({ searchTerm, sortKey, sortDir }) => {
         };
 
         fetchMeals();
-    }, [searchTerm, sortKey, sortDir]); // Fetch meals whenever searchTerm, sortKey or sortDir changes
+    }, [searchTerm, sortKey, sortDir, availableOnly]); // Fetch meals whenever searchTerm, sortKey, sortDir or availableOnly changes
 
     return (
         <div className={styles.mealsGrid}>

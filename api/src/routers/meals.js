@@ -32,16 +32,8 @@ mealsRouter.get("/", async (req, res) => {
         }
 
         // Filter by available reservations if the parameter is provided
-        if (availableReservations !== undefined) {
-            const available = availableReservations === "true";
-            query = query
-                .leftJoin("Reservation", "Meal.id", "=", "Reservation.meal_id") // Join with Reservation table
-                .groupBy("Meal.id") // Group results by meal id to aggregate reservations
-                .havingRaw(
-                    available
-                        ? "Meal.max_reservations > COUNT(Reservation.id)" // Available reservations
-                        : "Meal.max_reservations <= COUNT(Reservation.id)" // No available reservations
-                );
+        if (availableReservations === "true") {
+            query = query.where("current_reservations", "<", knex.raw("max_reservations")); // Check available spots
         }
 
         // Filter by title (case-insensitive)

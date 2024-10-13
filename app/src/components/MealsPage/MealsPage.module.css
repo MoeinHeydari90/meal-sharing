@@ -6,21 +6,28 @@
     min-height: 600px;
 }
 
+/* Controls styling */
 .controls {
     display: flex;
-
     align-items: center;
+    justify-content: center;
     gap: 20px; /* Space between the elements */
     margin-bottom: 20px;
     flex-wrap: nowrap; /* Ensure they stay on the same line */
     margin-top: 130px; /* Ensure it's below the header */
 }
 
+/* Sort and Filter controls */
 .sortWrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     min-width: 150px; /* Ensure sort elements have enough space */
+    background-color: white; /* White background for controls */
+    border: 1px solid #ddd; /* Light border for the box */
+    padding: 10px; /* Padding inside the box */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .sortWrapper label {
@@ -30,34 +37,65 @@
 }
 
 .sortWrapper select {
-    padding: 5px 10px;
+    padding: 8px; /* More padding for better click area */
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-    width: 100%; /* Ensure select inputs take up full width on small screens */
-}
-
-.sortWrapper select:hover,
-.searchInput:hover {
-    box-shadow: 0 1px 10px #00c194; /* Subtle shadow */
-    transition: all 0.4s; /* Transition effect */
+    width: 100%; /* Ensure select inputs take up full width */
+    transition: border-color 0.3s ease; /* Smooth border transition */
     cursor: pointer;
 }
 
-.searchForm {
-    flex-grow: 1; /* Take up all remaining space */
-    display: flex;
-    justify-content: flex-end;
-    min-width: 200px; /* Minimum width to prevent squashing */
+.sortWrapper:focus,
+.checkboxWrapper input:checked {
+    box-shadow:
+        0 0 5px rgba(0, 194, 148, 0.5),
+        0 0 10px rgba(0, 194, 148, 0.3); /* Light shadow */
+    border-color: #00c194; /* Change border color on focus */
+    outline: none; /* Remove default outline */
 }
 
+.sortWrapper:hover,
+.checkboxWrapper input:hover {
+    box-shadow: 0 0 10px rgba(0, 194, 148, 0.5); /* Slightly more prominent shadow */
+}
+
+/* Hover effect for select inputs */
+.sortWrapper select:hover,
+.searchInput:hover {
+    border-color: #00c194; /* Highlight border on hover */
+}
+
+/* Search input form */
+
 .searchInput {
-    padding: 5px 10px;
+    padding: 8px; /* Increased padding */
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
-
     width: 300px; /* Limit the search bar width on larger screens */
+    transition: border-color 0.3s ease; /* Smooth border transition */
+}
+
+/* Checkbox styling */
+.checkboxWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* Space between checkbox and previous controls */
+    cursor: pointer;
+}
+
+.checkboxWrapper input {
+    width: 20px; /* Increase width */
+    height: 20px; /* Increase height */
+    margin-right: 8px; /* Space between checkbox and label */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.checkboxWrapper label {
+    font-size: 1rem; /* Match font size to input */
+    color: #333; /* Consistent color with other labels */
+    cursor: pointer;
 }
 
 /* Media Queries */
@@ -73,22 +111,40 @@
 /* Medium screens (768px and below) */
 @media (max-width: 768px) {
     .controls {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: column; /* Stack elements vertically */
+        align-items: stretch; /* Stretch elements to full width */
+        gap: 10px; /* Reduce gap between elements */
+        margin-top: 130px; /* Adjust top margin */
     }
 
     .searchForm {
         width: 100%; /* Make search form take full width */
-        margin-top: 10px;
+        margin-top: 10px; /* Add some margin above */
     }
 
     .searchInput {
         width: 100%; /* Ensure search input takes full width on mobile */
     }
+
+    .sortWrapper {
+        width: 100%; /* Make sort options take full width */
+    }
+
+    .checkboxWrapper {
+        margin-left: 0; /* Remove left margin for consistency */
+        justify-content: center;
+        padding: 10px;
+    }
 }
 
 /* Small screens (480px and below) */
 @media (max-width: 480px) {
+    .controls {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: stretch; /* Stretch elements to full width */
+        gap: 5px; /* Reduce gap between elements */
+    }
+
     .sortWrapper {
         width: 100%; /* Make each sort option take up the full width */
         margin-bottom: 10px; /* Add spacing between controls */
@@ -104,5 +160,9 @@
 
     .sortWrapper select {
         font-size: 0.9rem; /* Slightly smaller font for small screens */
+    }
+
+    .checkboxWrapper {
+        justify-content: center;
     }
 }
