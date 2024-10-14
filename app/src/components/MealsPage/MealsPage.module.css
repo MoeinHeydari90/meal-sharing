@@ -1,12 +1,9 @@
-/* src/components/MealsPage/MealsPage.module.css */
-
 .mealsPage {
     padding: 20px;
     background-color: #f9f9f9;
     min-height: 600px;
 }
 
-/* Controls styling */
 .controls {
     display: flex;
     align-items: center;

@@ -3,7 +3,6 @@ import express from "express"; // Imports the express framework
 import cors from "cors"; // Imports the CORS middleware to enable Cross-Origin Resource Sharing
 import bodyParser from "body-parser"; // Imports the body-parser middleware to parse incoming request bodies
 import knex from "./database_client.js"; // Imports the configured knex instance for database queries
-import nestedRouter from "./routers/nested.js"; // Imports a nested router module
 import mealsRouter from "./routers/meals.js"; // Import the meals router
 import reservationsRouter from "./routers/reservations.js"; // Import the reservations router
 import reviewsRouter from "./routers/reviews.js"; // Import the reviews router
@@ -18,7 +17,6 @@ app.use(bodyParser.json()); // Parses incoming JSON request bodies
 const apiRouter = express.Router(); // Creates a new router instance for API routes
 
 // Register routers
-apiRouter.use("/nested", nestedRouter); // Mounts the nested router under the '/nested' path
 apiRouter.use("/meals", mealsRouter); // Mount the meals router under '/api/meals' path
 apiRouter.use("/reservations", reservationsRouter); // Mount the reservations router under '/api/reservations' path
 apiRouter.use("/reviews", reviewsRouter); // Mount the reviews router under the '/api/reviews' path
