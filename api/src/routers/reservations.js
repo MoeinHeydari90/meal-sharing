@@ -25,6 +25,7 @@ reservationsRouter.post("/", async (req, res) => {
         contact_name,
         contact_email,
     } = req.body;
+
     try {
         const [newReservationId] = await knex("Reservation")
             .insert({

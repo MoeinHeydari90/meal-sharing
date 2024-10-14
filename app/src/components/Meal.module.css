@@ -6,6 +6,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     background-color: #fff; /* White background */
     transition: transform 0.2s; /* Animation effect */
+    cursor: pointer; /* Change cursor to pointer */
 }
 
 .mealCard:hover {
@@ -37,4 +38,11 @@
 
 .mealContainer {
     text-align: center; /* Center the text below the image */
+}
+
+.availableSpots {
+    margin-top: 8px; /* Space above the available spots text */
+    font-size: 1em; /* Font size */
+    color: #0070f3; /* Color for the available spots text */
+    font-weight: bold; /* Bold for emphasis */
 }
