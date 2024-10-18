@@ -1,3 +1,4 @@
+// src/routers/meals.js
 import express from "express";
 import knex from "../database_client.js"; // Import the configured knex instance
 
@@ -6,56 +7,51 @@ const mealsRouter = express.Router();
 // GET /api/meals - Returns all meals, with optional filtering
 mealsRouter.get("/", async (req, res) => {
     try {
-        // Start building the query
-        let query = knex.select("*").from("Meal").orderBy("id", "ASC");
+        // Start building the query to fetch all meals from the "Meal" table
+        let query = knex("Meal")
+            .select("Meal.*")
+            .leftJoin("Review", "Meal.id", "Review.meal_id") // Join with Review table
+            .groupBy("Meal.id") // Group results by meal id to aggregate ratings
+            .avg("Review.stars as averageRating"); // Calculate average rating
 
         // Extract query parameters
         const {
-            maxPrice,
-            availableReservations,
-            title,
-            dateAfter,
-            dateBefore,
-            limit,
-            sortKey,
-            sortDir,
+            maxPrice, // Maximum price for filtering meals
+            availableReservations, // Filter by availability of reservations
+            title, // Filter meals by title (case-insensitive)
+            dateAfter, // Filter meals after a specific date
+            dateBefore, // Filter meals before a specific date
+            limit, // Limit the number of returned results
+            sortKey, // Key to sort the results by
+            sortDir, // Sorting direction (ASC/DESC)
         } = req.query;
 
+        // Filter by maxPrice if provided
         if (maxPrice) {
-            // Add the filtering condition for maxPrice
             query = query.where("price", "<=", parseFloat(maxPrice));
         }
 
-        if (availableReservations !== undefined) {
-            // Convert the availableReservations parameter to a boolean
-            const available = availableReservations === "true";
-
-            // Filter meals based on available spots
-            query = query
-                .leftJoin("Reservation", "Meal.id", "=", "Reservation.meal_id")
-                .groupBy("Meal.id")
-                .havingRaw(
-                    available
-                        ? "Meal.max_reservations > COUNT(Reservation.id)"
-                        : "Meal.max_reservations <= COUNT(Reservation.id)"
-                );
+        // Filter by available reservations if the parameter is provided
+        if (availableReservations === "true") {
+            query = query.where("current_reservations", "<", knex.raw("max_reservations")); // Check available spots
         }
 
+        // Filter by title (case-insensitive)
         if (title) {
-            // Add filtering for title with partial match
-            query = query.where("title", "like", `%${title}%`);
+            query = query.where("Meal.title", "like", `%${title}%`); // Specify table name
         }
 
+        // Filter by meals after a specific date
         if (dateAfter) {
-            // Add filtering for dates after the given date
             query = query.where("when", ">", dateAfter);
         }
 
+        // Filter by meals before a specific date
         if (dateBefore) {
-            // Add filtering for dates before the given date
             query = query.where("when", "<", dateBefore);
         }
 
+        // Limit the number of meals returned
         if (limit) {
             const parsedLimit = parseInt(limit);
             if (parsedLimit > 0) {
@@ -67,29 +63,28 @@ mealsRouter.get("/", async (req, res) => {
             }
         }
 
-        if (sortKey || sortDir) {
-            if (sortDir && !sortKey) {
-                return res.status(400).json({
-                    error: "sortDir must come with a sortKey.",
-                });
-            }
-            const validSortKeys = ["when", "max_reservations", "price"];
+        // Sort results by sortKey and direction (ASC or DESC)
+        if (sortKey) {
+            const validSortKeys = ["when", "max_reservations", "price"]; // Only allow sorting by valid keys
             const validSortDirs = ["ASC", "DESC"];
+            const FormattedSortDir =
+                sortDir && validSortDirs.includes(sortDir.toUpperCase())
+                    ? sortDir.toUpperCase()
+                    : "ASC"; // Default sort direction is ASC
 
-            const FormattedSortDir = sortDir ? sortDir.toUpperCase() : "ASC";
-            if (validSortKeys.includes(sortKey) && validSortDirs.includes(FormattedSortDir)) {
+            if (validSortKeys.includes(sortKey)) {
                 query = query.orderBy(sortKey, FormattedSortDir);
             } else {
                 return res.status(400).json({
-                    error: "Invalid value for sortKey or sortDir.",
+                    error: "Invalid value for sortKey.",
                 });
             }
         }
 
-        // Execute the query
+        // Execute the query to retrieve meals based on the filters
         const meals = await query;
 
-        // Respond with the filtered meals
+        // Respond with the filtered meals, including average ratings
         res.json(meals);
     } catch (error) {
         res.status(500).json({ error: "Failed to retrieve meals" });
@@ -98,9 +93,19 @@ mealsRouter.get("/", async (req, res) => {
 
 // POST /api/meals - Adds a new meal to the database
 mealsRouter.post("/", async (req, res) => {
-    const { id, title, description, location, when, max_reservations, price, created_date } =
-        req.body;
+    const {
+        id,
+        title,
+        description,
+        location,
+        when,
+        max_reservations,
+        price,
+        created_date,
+        image_url,
+    } = req.body;
     try {
+        // Insert a new meal into the "Meal" table and return the new meal's ID
         const [newMealId] = await knex("Meal")
             .insert({
                 id,
@@ -111,6 +116,7 @@ mealsRouter.post("/", async (req, res) => {
                 max_reservations,
                 price,
                 created_date,
+                image_url,
             })
             .returning("id");
         res.status(201).json({ message: "Meal added successfully", id: newMealId });
@@ -119,22 +125,32 @@ mealsRouter.post("/", async (req, res) => {
     }
 });
 
-// GET /api/meals/:id - Returns the meal by id with current reservation count
+// GET /api/meals/:id - Returns the meal by id with current reservation count and average rating
 mealsRouter.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        // Fetch the meal details along with the count of current reservations
+        // Fetch the meal details
         const meal = await knex("Meal")
             .leftJoin("Reservation", "Meal.id", "Reservation.meal_id")
             .select("Meal.*")
-            .count("Reservation.id as current_reservations") // Count the current reservations
             .where("Meal.id", id)
-            .groupBy("Meal.id") // Group by meal ID to avoid duplicates
-            .first(); // Get the first result
+            .groupBy("Meal.id")
+            .first();
 
         if (meal) {
             // Calculate available reservations
             meal.available_reservations = meal.max_reservations - meal.current_reservations;
+
+            // Fetch the average rating for the meal
+            const [ratingData] = await knex("Review")
+                .where("meal_id", id)
+                .select(knex.raw("AVG(stars) AS averageRating"));
+
+            // Attach averageRating to meal if it exists
+            meal.averageRating = ratingData
+                ? parseFloat(ratingData.averageRating).toFixed(4)
+                : null;
+
             res.json(meal);
         } else {
             res.status(404).json({ message: "Meal not found" });

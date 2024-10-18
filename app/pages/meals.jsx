@@ -1,6 +1,5 @@
-// pages/meals.jsx
 import React from "react";
-import MealsPage from "../src/MealsPage"; // Adjusted import path
+import MealsPage from "../src/components/MealsPage/MealsPage";
 
 const MealsPageComponent = () => {
     return <MealsPage />;

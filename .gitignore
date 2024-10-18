@@ -1,2 +1,6 @@
 .DS_Store
 **/node_modules/
+**/.next/
+.next
+# Next.js build output
+.next/

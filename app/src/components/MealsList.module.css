@@ -17,3 +17,13 @@
 .mealCard:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
+
+.sortControls {
+    margin: 20px; /* Space around the sort controls */
+}
+
+.sortControls select {
+    margin-right: 10px; /* Space between dropdowns */
+    padding: 5px; /* Padding inside the dropdowns */
+    border-radius: 4px; /* Rounded corners */
+}
