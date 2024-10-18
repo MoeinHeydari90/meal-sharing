@@ -11,7 +11,7 @@ const MealsList = ({ searchTerm, sortKey, sortDir, availableOnly }) => {
     useEffect(() => {
         const fetchMeals = async () => {
             // Construct API URL based on filter options
-            const apiUrl = `http://localhost:3001/api/meals?title=${searchTerm}&sortKey=${sortKey}&sortDir=${sortDir}${availableOnly ? "&availableReservations=true" : ""}`;
+            const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/meals?title=${searchTerm}&sortKey=${sortKey}&sortDir=${sortDir}${availableOnly ? "&availableReservations=true" : ""}`;
 
             try {
                 const response = await fetch(apiUrl);

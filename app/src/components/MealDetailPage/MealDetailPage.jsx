@@ -24,7 +24,7 @@ const MealDetailPage = () => {
     const fetchMeal = async () => {
         if (id) {
             try {
-                const response = await fetch(`http://localhost:3001/api/meals/${id}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/meals/${id}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -41,7 +41,7 @@ const MealDetailPage = () => {
         if (id) {
             try {
                 const response = await fetch(
-                    `http://localhost:3001/api/reviews/meals/${id}/reviews`
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/meals/${id}/reviews`
                 );
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -69,7 +69,7 @@ const MealDetailPage = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3001/api/reservations", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const MealDetailPage = () => {
     const handleReview = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:3001/api/reviews", {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
